@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smith &amp; Sons Contracting — Princeton, NC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:       #0d1b2a;
+      --dark-mid:   #1e3a5f;
+      --blue:       #1e3a5f;
+      --orange:     #f97316;
+      --orange-lt:  #fb923c;
+      --white:      #ffffff;
+      --off-white:  #f4f6f8;
+      --gray-light: #e2e8f0;
+      --gray-mid:   #94a3b8;
+      --gray-dark:  #475569;
+      --text:       #1e293b;
+      --ff-display: 'Barlow Condensed', sans-serif;
+      --ff-body:    'Barlow', sans-serif;
+      --nav-h:      72px;
+      --ease:       cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--ff-body); color: var(--text); background: var(--white); overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1120px, 100% - 2.5rem); margin-inline: auto; }
+
+    /* ── NAV ── */
+    #nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); z-index: 100; background: rgba(13,27,42,0.97); backdrop-filter: blur(12px); border-bottom: 2px solid var(--orange); transition: box-shadow 0.3s; }
+    #nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+    .nav-logo { display: flex; align-items: center; gap: 0.6rem; }
+    .logo-icon { width: 36px; height: 36px; background: var(--orange); display: flex; align-items: center; justify-content: center; }
+    .logo-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--white); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .logo-text { font-family: var(--ff-display); font-size: 1.3rem; font-weight: 800; color: var(--white); letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.1; }
+    .logo-text span { display: block; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.18em; color: var(--gray-mid); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--ff-display); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.65); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-cta { background: var(--orange); color: var(--white); font-family: var(--ff-display); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 1.3rem; transition: background 0.2s; }
+    .nav-cta:hover { background: var(--orange-lt); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; z-index: 200; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a { font-family: var(--ff-display); font-size: 2.5rem; font-weight: 800; text-transform: uppercase; color: rgba(255,255,255,0.8); letter-spacing: 0.05em; transition: color 0.2s; }
+    .mobile-menu a:hover { color: var(--orange); }
+
+    /* ── HERO ── */
+    #home { min-height: 100svh; padding-top: var(--nav-h); background: var(--dark); display: flex; align-items: center; position: relative; overflow: hidden; }
+
+    /* Diagonal stripe background */
+    .hero-stripes { position: absolute; inset: 0; background: repeating-linear-gradient(-55deg, transparent, transparent 40px, rgba(249,115,22,0.04) 40px, rgba(249,115,22,0.04) 80px); }
+    .hero-glow { position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 65%); }
+    .hero-line { position: absolute; left: 0; top: 50%; width: 40%; height: 2px; background: linear-gradient(to right, var(--orange), transparent); opacity: 0.4; }
+
+    .hero-content { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 5rem 0; }
+
+    .hero-eyebrow { font-family: var(--ff-display); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange); display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 2px; background: var(--orange); }
+    .hero-title { font-family: var(--ff-display); font-size: clamp(3.5rem, 7vw, 6rem); font-weight: 800; color: var(--white); line-height: 0.95; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 1.5rem; }
+    .hero-title .highlight { color: var(--orange); }
+    .hero-subtitle { font-size: 1rem; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.8; margin-bottom: 2rem; }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.75rem; font-family: var(--ff-display); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border: none; transition: all 0.25s ease; }
+    .btn-primary { background: var(--orange); color: var(--white); }
+    .btn-primary:hover { background: var(--orange-lt); transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.3); }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* Stats panel on right of hero */
+    .hero-stats { display: flex; flex-direction: column; gap: 1rem; }
+    .stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid var(--orange); padding: 1.25rem 1.5rem; }
+    .stat-num { font-family: var(--ff-display); font-size: 2.8rem; font-weight: 800; color: var(--white); line-height: 1; }
+    .stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.45); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.2rem; }
+
+    /* Ticker bar */
+    .ticker { background: var(--orange); padding: 0.6rem 0; overflow: hidden; position: relative; }
+    .ticker-inner { display: flex; gap: 3rem; white-space: nowrap; animation: ticker 18s linear infinite; }
+    .ticker-item { font-family: var(--ff-display); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); display: flex; align-items: center; gap: 0.75rem; }
+    .ticker-dot { width: 5px; height: 5px; background: rgba(255,255,255,0.5); border-radius: 50%; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 0; }
+    .section-label { display: inline-block; font-family: var(--ff-display); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.6rem; }
+    .section-title { font-family: var(--ff-display); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; color: var(--dark); line-height: 1.05; text-transform: uppercase; letter-spacing: 0.02em; }
+    .section-title em { font-style: normal; color: var(--orange); }
+    .rule { width: 40px; height: 3px; background: var(--orange); margin: 1.1rem 0 1.4rem; }
+    .section-body { font-size: 1rem; font-weight: 300; color: var(--gray-dark); line-height: 1.8; max-width: 52ch; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── SERVICES ── */
+    #services { background: var(--off-white); }
+    .services-header { text-align: center; margin-bottom: 3.5rem; }
+    .services-header .rule { margin-inline: auto; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gray-light); border: 1px solid var(--gray-light); }
+    .service-card { background: var(--white); padding: 2rem 1.75rem; transition: background 0.3s; position: relative; overflow: hidden; }
+    .service-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: var(--orange); transition: width 0.4s var(--ease); }
+    .service-card:hover { background: var(--dark); }
+    .service-card:hover::after { width: 100%; }
+    .service-card:hover .service-title, .service-card:hover .service-body { color: rgba(255,255,255,0.85); }
+    .service-card:hover .service-icon { background: rgba(249,115,22,0.15); border-color: rgba(249,115,22,0.3); }
+    .service-card:hover .service-icon svg { stroke: var(--orange); }
+    .service-icon { width: 46px; height: 46px; background: var(--off-white); border: 1px solid var(--gray-light); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; transition: all 0.3s; }
+    .service-icon svg { width: 22px; height: 22px; fill: none; stroke: var(--dark-mid); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke 0.3s; }
+    .service-title { font-family: var(--ff-display); font-size: 1.25rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--dark); margin-bottom: 0.6rem; transition: color 0.3s; }
+    .service-body { font-size: 0.88rem; color: var(--gray-dark); line-height: 1.75; transition: color 0.3s; }
+
+    /* ── WHY US ── */
+    #why { background: var(--white); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .why-visual { position: relative; }
+    .why-img { width: 100%; aspect-ratio: 4/5; background: linear-gradient(160deg, var(--dark-mid), var(--dark)); position: relative; overflow: hidden; }
+    .why-img::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(-45deg, rgba(249,115,22,0.05) 0, rgba(249,115,22,0.05) 1px, transparent 1px, transparent 30px); }
+    .why-img-label { position: absolute; bottom: 1.5rem; left: 1.5rem; background: var(--orange); padding: 0.6rem 1.1rem; font-family: var(--ff-display); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--white); }
+    .why-badge { position: absolute; top: -18px; right: -18px; width: 110px; height: 110px; background: var(--orange); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 8px 30px rgba(249,115,22,0.4); }
+    .why-badge-num { font-family: var(--ff-display); font-size: 1.8rem; font-weight: 800; color: var(--white); line-height: 1; }
+    .why-badge-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.85); text-align: center; }
+
+    .why-list { list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 1.1rem; }
+    .why-list li { display: flex; align-items: flex-start; gap: 1rem; }
+    .why-check { width: 28px; height: 28px; flex-shrink: 0; background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.25); display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+    .why-check svg { width: 13px; height: 13px; fill: none; stroke: var(--orange); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .why-text strong { display: block; font-family: var(--ff-display); font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--dark); }
+    .why-text span { font-size: 0.87rem; color: var(--gray-dark); }
+
+    /* ── GALLERY ── */
+    #gallery { background: var(--dark); padding: 5rem 0; }
+    .gallery-header { text-align: center; margin-bottom: 2.5rem; }
+    .gallery-header .section-title { color: var(--white); }
+    .gallery-header .rule { margin-inline: auto; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: auto auto; gap: 0.75rem; }
+    .gallery-item { background: var(--dark-mid); border-radius: 3px; overflow: hidden; position: relative; }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; aspect-ratio: 1; }
+    .gallery-item:nth-child(n+2) { aspect-ratio: 4/3; }
+    .gallery-fill { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--dark-mid), var(--dark)); }
+    .gallery-fill svg { width: 28px; height: 28px; fill: none; stroke: rgba(249,115,22,0.3); stroke-width: 1.5; stroke-linecap: round; }
+    .gallery-item::after { content: 'View Project'; position: absolute; inset: 0; background: rgba(249,115,22,0.85); display: flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); opacity: 0; transition: opacity 0.3s; }
+    .gallery-item:hover::after { opacity: 1; }
+
+    /* ── QUOTE FORM ── */
+    #quote { background: var(--off-white); }
+    .quote-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start; }
+    .quote-form-wrap { background: var(--white); border: 1px solid var(--gray-light); border-top: 3px solid var(--orange); padding: 2.25rem; }
+    .quote-form-title { font-family: var(--ff-display); font-size: 1.5rem; font-weight: 800; text-transform: uppercase; color: var(--dark); letter-spacing: 0.04em; margin-bottom: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.9rem; }
+    .form-group label { font-family: var(--ff-display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-dark); }
+    .form-group input, .form-group select, .form-group textarea { font-family: var(--ff-body); font-size: 0.9rem; color: var(--dark); background: var(--off-white); border: 1px solid var(--gray-light); padding: 0.7rem 0.9rem; outline: none; transition: border-color 0.2s; -webkit-appearance: none; width: 100%; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--orange); }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    .btn-form { width: 100%; justify-content: center; margin-top: 0.25rem; }
+
+    .contact-details { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+    .cd-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .cd-icon { width: 40px; height: 40px; flex-shrink: 0; background: var(--off-white); border: 1px solid var(--gray-light); display: flex; align-items: center; justify-content: center; }
+    .cd-icon svg { width: 17px; height: 17px; fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .cd-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 0.2rem; }
+    .cd-value { font-size: 0.95rem; color: var(--dark); }
+
+    /* License strip */
+    .license-strip { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2rem; }
+    .license-badge { display: flex; align-items: center; gap: 0.5rem; background: var(--white); border: 1px solid var(--gray-light); padding: 0.5rem 0.9rem; }
+    .license-badge svg { width: 16px; height: 16px; fill: none; stroke: var(--orange); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .license-badge span { font-size: 0.75rem; font-weight: 600; color: var(--gray-dark); letter-spacing: 0.05em; text-transform: uppercase; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--dark); padding: 3rem 0 1.5rem; }
+    .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 2.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,0.4); margin-top: 0.75rem; line-height: 1.7; max-width: 26ch; }
+    .footer-col h4 { font-family: var(--ff-display); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a { font-size: 0.87rem; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--white); }
+    .footer-bottom { display: flex; justify-content: space-between; font-size: 0.78rem; color: rgba(255,255,255,0.3); flex-wrap: wrap; gap: 0.5rem; }
+    .footer-credit a { color: var(--orange); }
+
+    #btt { position: fixed; bottom: 2rem; right: 2rem; width: 44px; height: 44px; background: var(--orange); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 99; opacity: 0; pointer-events: none; transform: translateY(10px); transition: all 0.3s ease; }
+    #btt.visible { opacity: 1; pointer-events: all; transform: none; }
+    #btt:hover { background: var(--orange-lt); }
+    #btt svg { width: 16px; height: 16px; fill: none; stroke: var(--white); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    @media (max-width: 900px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+      .hero-content { grid-template-columns: 1fr; }
+      .why-grid, .quote-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:nth-child(1) { grid-column: span 2; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item:nth-child(1) { grid-column: span 1; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="container nav-inner">
+      <div class="nav-logo">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="logo-text">Smith &amp; Sons<span>Contracting · Princeton, NC</span></div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#gallery">Our Work</a></li>
+        <li><a href="#quote">Contact</a></li>
+      </ul>
+      <a href="#quote" class="nav-cta">Free Estimate</a>
+      <button class="hamburger" id="ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mob-menu">
+    <a href="#services" class="mob-l">Services</a>
+    <a href="#why" class="mob-l">Why Us</a>
+    <a href="#gallery" class="mob-l">Our Work</a>
+    <a href="#quote" class="mob-l">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-stripes"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-line"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div>
+          <p class="hero-eyebrow">Licensed &amp; Insured · Princeton, NC</p>
+          <h1 class="hero-title">Built<br/><span class="highlight">Right.</span><br/>Built<br/>To Last.</h1>
+          <p class="hero-subtitle">Quality residential and commercial contracting you can trust. From new builds to full renovations — we show up on time, do the job right, and stand behind every nail.</p>
+          <div class="hero-actions">
+            <a href="#quote" class="btn btn-primary">Get a Free Estimate →</a>
+            <a href="#gallery" class="btn btn-ghost">View Our Work</a>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card"><div class="stat-num">20+</div><div class="stat-label">Years in Business</div></div>
+          <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Projects Completed</div></div>
+          <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">Licensed &amp; Insured</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item"><span class="ticker-dot"></span>Roofing</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Framing</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Decks &amp; Patios</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Additions</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Siding</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Remodeling</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Flooring</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Roofing</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Framing</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Decks &amp; Patios</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Additions</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Siding</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Remodeling</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Flooring</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="services-header">
+        <span class="section-label reveal">What We Do</span>
+        <h2 class="section-title reveal reveal-delay-1">Our <em>Services</em></h2>
+        <div class="rule reveal reveal-delay-2" style="margin-inline:auto;"></div>
+        <p class="section-body reveal reveal-delay-2" style="text-align:center;margin-inline:auto;">No job too big, no detail too small. We handle residential and commercial projects across Johnston County.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div class="service-title">Roofing</div>
+          <p class="service-body">Full roof replacements, repairs, gutters, and inspections. We use top-grade materials and back every roof with a workmanship warranty.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 9h20"/></svg></div>
+          <div class="service-title">Room Additions</div>
+          <p class="service-body">Need more space? We design and build seamless additions that match your existing home — from sunrooms to full in-law suites.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <div class="service-title">Decks &amp; Patios</div>
+          <p class="service-body">Custom deck and patio builds — wood, composite, and concrete. Built to code, built to last, and built to make your backyard shine.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="service-title">Kitchen &amp; Bath Remodels</div>
+          <p class="service-body">Full gut-to-finish kitchen and bathroom remodels. New layouts, tile, cabinets, countertops, fixtures — we handle every trade.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="service-title">Siding &amp; Exterior</div>
+          <p class="service-body">Vinyl, HardiePlank, wood — we replace and repair all exterior siding types. We also handle exterior painting, shutters, and trim.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></div>
+          <div class="service-title">Flooring</div>
+          <p class="service-body">Hardwood, LVP, tile, and carpet installation and refinishing. We prep the subfloor right so your floors last for decades.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section id="why">
+    <div class="container">
+      <div class="why-grid">
+        <div class="why-visual reveal">
+          <div class="why-img"><div style="position:absolute;inset:0;"></div><div class="why-img-label">25 Years of Craftsmanship</div></div>
+          <div class="why-badge"><div class="why-badge-num">A+</div><div class="why-badge-label">BBB<br/>Rated</div></div>
+        </div>
+        <div>
+          <span class="section-label reveal">Why Choose Us</span>
+          <h2 class="section-title reveal reveal-delay-1">We Show <em>Up.</em><br/>We Do It Right.</h2>
+          <div class="rule reveal reveal-delay-2"></div>
+          <p class="section-body reveal reveal-delay-2">We're not a big national chain — we're your neighbors. Our reputation in Johnston County is built on showing up when we say, finishing on time, and doing work we're proud to put our name on.</p>
+          <ul class="why-list">
+            <li class="reveal reveal-delay-2">
+              <div class="why-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="why-text"><strong>Free, No-Pressure Estimates</strong><span>We come out, assess the job, and give you a clear written estimate — no hidden fees.</span></div>
+            </li>
+            <li class="reveal reveal-delay-3">
+              <div class="why-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="why-text"><strong>Licensed, Bonded &amp; Insured</strong><span>Full coverage on every job — protecting you, your home, and our crew.</span></div>
+            </li>
+            <li class="reveal reveal-delay-3">
+              <div class="why-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="why-text"><strong>Workmanship Warranty</strong><span>We stand behind our work with a written warranty on every project we complete.</span></div>
+            </li>
+          </ul>
+          <div class="license-strip reveal reveal-delay-3">
+            <div class="license-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>NC Licensed</span></div>
+            <div class="license-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Fully Insured</span></div>
+            <div class="license-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>BBB A+</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="container">
+      <div class="gallery-header">
+        <span class="section-label reveal" style="color:var(--orange);">Our Work</span>
+        <h2 class="section-title reveal reveal-delay-1" style="color:var(--white);">Recent <em>Projects</em></h2>
+        <div class="rule reveal reveal-delay-2" style="margin-inline:auto;"></div>
+      </div>
+      <div class="gallery-grid reveal">
+        <div class="gallery-item"><div class="gallery-fill"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div></div>
+        <div class="gallery-item"><div class="gallery-fill"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/></svg></div></div>
+        <div class="gallery-item"><div class="gallery-fill"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg></div></div>
+        <div class="gallery-item"><div class="gallery-fill"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div>
+        <div class="gallery-item"><div class="gallery-fill"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section id="quote">
+    <div class="container">
+      <div class="quote-grid">
+        <div>
+          <span class="section-label reveal">Get In Touch</span>
+          <h2 class="section-title reveal reveal-delay-1">Request a <em>Free</em><br/>Estimate</h2>
+          <div class="rule reveal reveal-delay-2"></div>
+          <p class="section-body reveal reveal-delay-2">Fill out the form and we'll reach back out within 24 hours to schedule a time to come take a look. No obligation, no pressure — just an honest quote.</p>
+          <div class="contact-details reveal reveal-delay-2">
+            <div class="cd-item">
+              <div class="cd-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <div><div class="cd-label">Call or Text</div><div class="cd-value">(919) 555-0188</div></div>
+            </div>
+            <div class="cd-item">
+              <div class="cd-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="cd-label">Email</div><div class="cd-value">info@smithandsonscontracting.com</div></div>
+            </div>
+            <div class="cd-item">
+              <div class="cd-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div><div class="cd-label">Service Area</div><div class="cd-value">Princeton, NC &amp; all of Johnston County</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="quote-form-wrap reveal reveal-delay-1">
+          <div class="quote-form-title">Free Estimate Request</div>
+          <form>
+            <div class="form-row">
+              <div class="form-group"><label>First Name</label><input type="text" placeholder="John" /></div>
+              <div class="form-group"><label>Last Name</label><input type="text" placeholder="Doe" /></div>
+            </div>
+            <div class="form-group"><label>Phone</label><input type="tel" placeholder="(919) 555-0000" /></div>
+            <div class="form-group"><label>Email</label><input type="email" placeholder="john@email.com" /></div>
+            <div class="form-group"><label>Type of Project</label>
+              <select>
+                <option value="" disabled selected>Select a service…</option>
+                <option>Roofing</option><option>Room Addition</option><option>Deck / Patio</option>
+                <option>Kitchen Remodel</option><option>Bathroom Remodel</option><option>Siding</option>
+                <option>Flooring</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Describe Your Project</label><textarea placeholder="Tell us a little about the job…"></textarea></div>
+            <button type="button" class="btn btn-primary btn-form">Request My Free Estimate →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div style="font-family:var(--ff-display);font-size:1.3rem;font-weight:800;text-transform:uppercase;color:var(--orange);letter-spacing:0.04em;margin-bottom:0.25rem;">Smith &amp; Sons</div>
+          <div style="font-family:var(--ff-display);font-size:0.75rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:0.75rem;">Contracting · Princeton, NC</div>
+          <p class="footer-tagline">Honest work, fair prices, and craftsmanship you can count on. Serving Johnston County since 2005.</p>
+        </div>
+        <div class="footer-col"><h4>Services</h4><ul><li><a href="#services">Roofing</a></li><li><a href="#services">Room Additions</a></li><li><a href="#services">Decks &amp; Patios</a></li><li><a href="#services">Remodeling</a></li><li><a href="#services">Flooring</a></li></ul></div>
+        <div class="footer-col"><h4>Company</h4><ul><li><a href="#why">Why Choose Us</a></li><li><a href="#gallery">Our Work</a></li><li><a href="#quote">Get an Estimate</a></li></ul></div>
+        <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+19195550188">(919) 555-0188</a></li><li><a href="#quote">Send a Message</a></li><li><a href="#quote">Princeton, NC</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Smith &amp; Sons Contracting. All rights reserved.</span>
+        <span class="footer-credit">Site by <a href="../../index.html">CS Web Solutions</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="btt" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const btt = document.getElementById('btt');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', scrollY > 10);
+      btt.classList.toggle('visible', scrollY > 300);
+    }, { passive: true });
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    const ham = document.getElementById('ham');
+    const mob = document.getElementById('mob-menu');
+    ham.addEventListener('click', () => {
+      const o = ham.classList.toggle('open');
+      mob.classList.toggle('open', o);
+      document.body.style.overflow = o ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-l').forEach(a => a.addEventListener('click', () => {
+      ham.classList.remove('open'); mob.classList.remove('open'); document.body.style.overflow = '';
+    }));
+
+    const reveal = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); reveal.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
+  </script>
+</body>
+</html>

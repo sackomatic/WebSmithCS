@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bright Horizons Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/webfont/tabler-icons.min.css" />
+
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #1a1a1a;
+      background: #faf6ee;
+    }
+
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --emerald:       #1a6b4a;
+      --emerald-dark:  #0f4530;
+      --emerald-mid:   #2d9466;
+      --emerald-light: #e8f5ef;
+      --cream:         #faf6ee;
+      --cream-dark:    #f0e8d8;
+      --gold:          #c8973a;
+      --gold-dark:     #9e7220;
+      --white:         #ffffff;
+      --text-dark:     #1a1a1a;
+      --text-mid:      #4a4a4a;
+      --text-light:    #7a7a6a;
+      --border:        rgba(0,0,0,0.08);
+      --border-emerald: rgba(26,107,74,0.15);
+      --radius:        12px;
+      --radius-sm:     6px;
+      --radius-pill:   999px;
+      --shadow-sm:     0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md:     0 4px 20px rgba(0,0,0,0.09);
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .display { font-family: 'Playfair Display', serif; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+    h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 700; }
+    h2 { font-size: clamp(22px, 3.5vw, 30px); font-weight: 700; margin-bottom: 10px; }
+    h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    h4 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    p  { font-size: 15px; color: var(--text-mid); }
+
+    /* ── UTILITIES ── */
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+    .text-center { text-align: center; }
+    .mb-4  { margin-bottom: 4px; }
+    .mb-8  { margin-bottom: 8px; }
+    .mb-12 { margin-bottom: 12px; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mb-32 { margin-bottom: 32px; }
+    .mt-8  { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .mt-32 { margin-top: 32px; }
+    .divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+    /* ── EYEBROW LABEL ── */
+    .eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--emerald-mid);
+      margin-bottom: 10px;
+    }
+    .eyebrow-gold { color: var(--gold); }
+    .eyebrow-white { color: rgba(255,255,255,0.6); }
+
+    /* ── PILL BADGE ── */
+    .pill-badge {
+      display: inline-block;
+      background: var(--emerald-light);
+      color: var(--emerald-dark);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 10px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 26px;
+      border-radius: var(--radius-pill);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: filter 0.15s, background 0.15s, transform 0.1s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-gold {
+      background: var(--gold);
+      color: #1a0f00;
+    }
+    .btn-gold:hover { filter: brightness(1.08); }
+    .btn-emerald {
+      background: var(--emerald);
+      color: var(--white);
+    }
+    .btn-emerald:hover { background: var(--emerald-dark); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.3);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.22); }
+    .btn-outline {
+      background: transparent;
+      color: var(--emerald);
+      border: 1.5px solid var(--emerald);
+    }
+    .btn-outline:hover { background: var(--emerald-light); }
+    .btn-full { width: 100%; justify-content: center; padding: 14px 26px; }
+    .btn-sm { padding: 8px 18px; font-size: 13px; }
+
+    /* ── FORM ELEMENTS ── */
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-mid);
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--emerald);
+      box-shadow: 0 0 0 3px rgba(26,107,74,0.1);
+    }
+    textarea { resize: vertical; min-height: 100px; }
+
+    /* ── NAVIGATION ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 62px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--emerald);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+    }
+    .nav-links a {
+      display: block;
+      padding: 7px 13px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-mid);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--emerald); background: var(--emerald-light); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-dark);
+      cursor: pointer;
+      padding: 4px;
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 62px; left: 0; right: 0; background: var(--white); padding: 12px 16px 16px; border-bottom: 1px solid var(--border); gap: 4px; }
+      .nav-links.open { display: flex; }
+      .nav-hamburger { display: block; }
+    }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--emerald-dark);
+      color: var(--white);
+      padding: 72px 0 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200,151,58,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(45,148,102,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 1; }
+    .hero h1 { color: var(--white); margin-bottom: 18px; max-width: 600px; }
+    .hero p { font-size: 17px; color: rgba(255,255,255,0.8); max-width: 520px; margin-bottom: 32px; font-weight: 300; }
+    .hero-image-placeholder {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      color: rgba(255,255,255,0.35);
+      font-size: 15px;
+      margin-bottom: 36px;
+    }
+    .hero-image-placeholder i { font-size: 40px; }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* ── SECTION WRAPPERS ── */
+    .section { padding: 64px 0; }
+    .section-white { background: var(--white); }
+    .section-cream { background: var(--cream); }
+    .section-emerald-light { background: var(--emerald-light); }
+    .section-emerald { background: var(--emerald); color: var(--white); }
+    .section-dark { background: var(--emerald-dark); color: var(--white); }
+    .section-emerald h2, .section-dark h2 { color: var(--white); }
+    .section-emerald p, .section-dark p { color: rgba(255,255,255,0.8); }
+    .section-intro {
+      font-size: 16px;
+      color: var(--text-light);
+      max-width: 580px;
+      margin-bottom: 40px;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .section-intro-white { color: rgba(255,255,255,0.75); }
+
+    /* ── IMPACT STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border-emerald);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .stat-icon {
+      width: 44px; height: 44px;
+      background: var(--emerald-light);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      color: var(--emerald);
+      font-size: 20px;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--emerald);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label { font-size: 13px; color: var(--text-light); }
+
+    /* ── TWO-COL LAYOUT ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .two-col.reverse { direction: rtl; }
+    .two-col.reverse > * { direction: ltr; }
+    @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } .two-col.reverse { direction: ltr; } }
+    .img-placeholder {
+      background: var(--cream-dark);
+      border-radius: var(--radius);
+      min-height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      color: var(--text-light);
+      font-size: 14px;
+      border: 1px solid var(--border);
+    }
+    .img-placeholder i { font-size: 32px; }
+
+    /* ── ABOUT: VALUES ── */
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 500px) { .values-grid { grid-template-columns: 1fr; } }
+    .value-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 20px;
+      border-left: 3px solid var(--emerald);
+    }
+    .value-card h4 { color: var(--emerald-dark); }
+    .value-card p { font-size: 14px; }
+
+    /* ── TEAM GRID ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+    }
+    .team-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 20px 14px;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
+    .team-card:hover { transform: translateY(-2px); }
+    .team-avatar {
+      width: 58px; height: 58px;
+      background: var(--emerald-light);
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      border: 2px solid var(--border-emerald);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      color: var(--emerald);
+    }
+    .team-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; color: var(--text-dark); }
+    .team-role { font-size: 12px; color: var(--text-light); }
+    .team-card.placeholder {
+      border: 1.5px dashed var(--border-emerald);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px;
+    }
+    .team-card.placeholder i { font-size: 22px; color: var(--emerald); }
+
+    /* ── STORY QUOTE ── */
+    .pullquote {
+      background: var(--emerald-light);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      border-left: 4px solid var(--emerald);
+      margin-bottom: 32px;
+    }
+    .pullquote p {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--emerald-dark);
+      line-height: 1.5;
+    }
+
+    /* ── PROGRAMS ── */
+    .program-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      border: 1px solid var(--border-emerald);
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 18px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .program-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .program-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: var(--emerald);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white);
+      font-size: 24px;
+    }
+    .program-card h3 { color: var(--emerald-dark); }
+    .program-card p { font-size: 14px; line-height: 1.65; }
+    .service-cta-box {
+      background: var(--emerald-light);
+      border: 1px solid var(--border-emerald);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      text-align: center;
+      margin-top: 32px;
+    }
+    .service-cta-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: var(--emerald-dark);
+      margin-bottom: 10px;
+    }
+    .service-cta-box p { max-width: 480px; margin: 0 auto 20px; }
+    .cta-btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── DONATE: FUND USE ── */
+    .fund-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 500px) { .fund-grid { grid-template-columns: 1fr; } }
+    .fund-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--cream);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+    }
+    .fund-dot {
+      width: 10px; height: 10px;
+      background: var(--emerald);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .fund-item p { font-size: 13px; line-height: 1.5; }
+    .fund-item strong { color: var(--emerald-dark); }
+
+    /* ── DONATE: GIVING WIDGET ── */
+    .giving-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-emerald);
+      padding: 30px;
+      box-shadow: var(--shadow-sm);
+    }
+    .giving-toggle {
+      display: flex;
+      background: var(--cream-dark);
+      border-radius: var(--radius-pill);
+      padding: 4px;
+      margin-bottom: 22px;
+      width: fit-content;
+    }
+    .toggle-btn {
+      padding: 8px 22px;
+      border-radius: var(--radius-pill);
+      border: none;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-mid);
+      transition: all 0.2s;
+    }
+    .toggle-btn.active {
+      background: var(--white);
+      color: var(--emerald);
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    }
+    .amount-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 480px) { .amount-grid { grid-template-columns: repeat(2, 1fr); } }
+    .amount-btn {
+      border: 1.5px solid var(--border-emerald);
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 12px 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-mid);
+      transition: all 0.15s;
+    }
+    .amount-btn:hover, .amount-btn.selected {
+      border-color: var(--emerald);
+      color: var(--emerald);
+      background: var(--emerald-light);
+    }
+    .impact-label {
+      font-size: 13px;
+      color: var(--text-light);
+      font-style: italic;
+      margin-bottom: 20px;
+      min-height: 20px;
+    }
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 14px 0 20px;
+    }
+    .secure-badge i { color: var(--emerald); }
+
+    /* ── VOLUNTEER FORM ── */
+    .form-section {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 30px;
+      box-shadow: var(--shadow-sm);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-full { grid-column: 1 / -1; }
+    .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 6px 14px;
+      border: 1.5px solid var(--border-emerald);
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      color: var(--text-mid);
+      cursor: pointer;
+      background: var(--white);
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .chip:hover, .chip.active {
+      background: var(--emerald-light);
+      border-color: var(--emerald);
+      color: var(--emerald-dark);
+      font-weight: 500;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 700px) { .contact-grid { grid-template-columns: 1fr; } }
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-mid);
+    }
+    .info-row:last-of-type { border-bottom: none; }
+    .info-row i { color: var(--emerald); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .social-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .social-link {
+      width: 40px; height: 40px;
+      background: var(--emerald-light);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--emerald);
+      font-size: 18px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .social-link:hover { background: var(--emerald); color: var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--emerald-dark);
+      color: rgba(255,255,255,0.75);
+    }
+    .footer-main { padding: 56px 0 36px; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 32px;
+    }
+    @media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+    .footer-brand-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .footer-brand-logo span { color: var(--gold); }
+    .footer-brand p { font-size: 13px; line-height: 1.7; margin-bottom: 8px; }
+    .footer-legal { font-size: 11px; color: rgba(255,255,255,0.35); }
+    .footer-col h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      text-decoration: none;
+      transition: color 0.15s;
+      cursor: pointer;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .newsletter-form { display: flex; gap: 8px; margin-top: 2px; }
+    .newsletter-form input {
+      flex: 1;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      font-size: 13px;
+      color: var(--white);
+    }
+    .newsletter-form input::placeholder { color: rgba(255,255,255,0.4); }
+    .newsletter-form input:focus { border-color: rgba(255,255,255,0.4); outline: none; }
+    .newsletter-form button {
+      background: var(--gold);
+      color: #1a0f00;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 9px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: filter 0.15s;
+    }
+    .newsletter-form button:hover { filter: brightness(1.1); }
+    .footer-donate-wrap { margin-top: 14px; }
+    .footer-donate-btn {
+      background: var(--gold);
+      color: #1a0f00;
+      border: none;
+      padding: 10px 24px;
+      border-radius: var(--radius-pill);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: filter 0.15s;
+    }
+    .footer-donate-btn:hover { filter: brightness(1.1); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.35); }
+    .footer-bottom-links { display: flex; gap: 18px; }
+    .footer-bottom-links a {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-bottom-links a:hover { color: rgba(255,255,255,0.75); }
+
+    /* ── PAGE-SPECIFIC HERO VARIANTS ── */
+    .hero-sm { padding: 52px 0 44px; }
+    .hero-sm h1 { font-size: clamp(24px, 4vw, 36px); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .section { padding: 48px 0; }
+      .hero { padding: 52px 0 44px; }
+      .two-col { gap: 28px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════ -->
+  <header class="nav">
+    <div class="container">
+      <nav class="nav-inner" aria-label="Main navigation">
+        <a class="nav-logo" href="#" onclick="showPage('home')">Bright<span>Horizons</span></a>
+
+        <button class="nav-hamburger" aria-label="Toggle navigation" onclick="toggleMenu()">
+          <i class="ti ti-menu-2" aria-hidden="true"></i>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#" class="active" onclick="showPage('home')">Home</a></li>
+          <li><a href="#" onclick="showPage('about')">About</a></li>
+          <li><a href="#" onclick="showPage('programs')">Programs</a></li>
+          <li><a href="#" onclick="showPage('donate')">Donate</a></li>
+          <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="btn btn-emerald btn-sm" onclick="showPage('donate')">
+            <i class="ti ti-heart" aria-hidden="true"></i> Donate Now
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+  <!-- ═══════════════════════════════
+       HOME PAGE
+  ═══════════════════════════════ -->
+  <div id="page-home" class="page active">
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Hero">
+      <div class="container hero-inner">
+        <span class="eyebrow eyebrow-gold">Making a difference, one family at a time</span>
+        <h1>Clean Water &amp; Bright Futures<br>for Every Community</h1>
+        <div class="hero-image-placeholder" role="img" aria-label="Hero image placeholder">
+          <i class="ti ti-photo" aria-hidden="true"></i>
+          <span>Emotional hero image — add your photography here</span>
+        </div>
+        <p>We believe no family should go without clean water or the tools to thrive. Join us in building a healthier, more equitable world — right here, right now.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-gold" onclick="showPage('donate')">
+            <i class="ti ti-heart" aria-hidden="true"></i> Donate Now
+          </button>
+          <button class="btn btn-ghost" onclick="showPage('donate')">Get Involved</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT STATS -->
+    <section class="section section-white" aria-labelledby="impact-heading">
+      <div class="container">
+        <span class="eyebrow">Our impact</span>
+        <h2 id="impact-heading">Every number is a life changed</h2>
+        <p class="section-intro">Since 2008, we've been quietly and persistently showing up for communities that need us most.</p>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true"><i class="ti ti-users"></i></div>
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Families served</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true"><i class="ti ti-droplet"></i></div>
+            <div class="stat-number">12K</div>
+            <div class="stat-label">Water kits distributed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true"><i class="ti ti-school"></i></div>
+            <div class="stat-number">87%</div>
+            <div class="stat-label">School retention rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true"><i class="ti ti-map-pin"></i></div>
+            <div class="stat-number">34</div>
+            <div class="stat-label">Communities reached</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true"><i class="ti ti-hand-heart"></i></div>
+            <div class="stat-number">240</div>
+            <div class="stat-label">Active volunteers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true"><i class="ti ti-award"></i></div>
+            <div class="stat-number">16 yrs</div>
+            <div class="stat-label">Years of service</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAUSE INTRO -->
+    <section class="section section-cream" aria-labelledby="cause-heading">
+      <div class="container">
+        <div class="two-col">
+          <div>
+            <span class="eyebrow">Why it matters</span>
+            <h2 id="cause-heading">Safe water shouldn't be a privilege</h2>
+            <p style="margin-bottom: 14px; font-weight: 300; font-size: 15px; line-height: 1.75;">
+              Millions of families in underserved communities still lack consistent access to clean water and basic nutrition. Bright Horizons Foundation bridges that gap with on-the-ground programs built on community trust and evidence-based practice.
+            </p>
+            <p style="margin-bottom: 28px; font-weight: 300; font-size: 15px; line-height: 1.75;">
+              When a child can drink safely and eat well, they show up to school. When they stay in school, everything changes. That's the chain reaction we're building together.
+            </p>
+            <button class="btn btn-outline" onclick="showPage('donate')">Get Involved</button>
+          </div>
+          <div class="img-placeholder" role="img" aria-label="Community photo placeholder">
+            <i class="ti ti-photo" aria-hidden="true"></i>
+            <span>Community photo</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MINI CTA BANNER -->
+    <section class="section section-emerald" aria-labelledby="cta-banner-heading">
+      <div class="container text-center">
+        <span class="eyebrow eyebrow-white">Ready to help?</span>
+        <h2 id="cta-banner-heading" style="color:white; margin-bottom: 12px;">Together we go further</h2>
+        <p class="section-intro section-intro-white" style="margin: 0 auto 28px;">
+          Your donation — no matter the size — puts clean water, meals, and opportunity into the hands of families who need it most.
+        </p>
+        <button class="btn btn-gold" onclick="showPage('donate')">
+          <i class="ti ti-heart" aria-hidden="true"></i> Donate Now
+        </button>
+      </div>
+    </section>
+
+  </div><!-- /page-home -->
+
+
+  <!-- ═══════════════════════════════
+       ABOUT PAGE
+  ═══════════════════════════════ -->
+  <div id="page-about" class="page">
+
+    <section class="hero hero-sm" aria-label="About hero">
+      <div class="container hero-inner">
+        <span class="eyebrow eyebrow-gold">About us</span>
+        <h1>Rooted in community.<br>Driven by purpose.</h1>
+        <p style="margin-bottom: 0;">Learn who we are, what drives us, and the people who make it all possible.</p>
+      </div>
+    </section>
+
+    <!-- OUR STORY -->
+    <section class="section section-white" aria-labelledby="story-heading">
+      <div class="container">
+        <div class="two-col">
+          <div>
+            <span class="eyebrow">Our story</span>
+            <h2 id="story-heading">From a garage to 34 communities</h2>
+            <p style="font-weight: 300; font-size: 15px; line-height: 1.8; margin-bottom: 16px;">
+              Bright Horizons Foundation was founded in 2008 by a group of nurses and teachers who saw, firsthand, how lack of clean water was keeping children out of school and trapping families in cycles of preventable illness. What began as weekend water-kit distributions from a garage in Johnston County has grown into a regional force for good.
+            </p>
+            <p style="font-weight: 300; font-size: 15px; line-height: 1.8;">
+              Today we operate two flagship programs, partner with 12 local health systems, and employ a passionate team of 18 full-time staff — supported by 240 volunteers who give their time every single week.
+            </p>
+          </div>
+          <div class="img-placeholder" role="img" aria-label="Founding team photo placeholder">
+            <i class="ti ti-photo" aria-hidden="true"></i>
+            <span>Founding team / history photo</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISION QUOTE -->
+    <section class="section section-cream" aria-labelledby="vision-heading">
+      <div class="container">
+        <span class="eyebrow">Our vision</span>
+        <div class="pullquote">
+          <p>"A world where every family has the clean water, nutrition, and education they need to flourish — no exceptions, no zip code barriers."</p>
+        </div>
+
+        <span class="eyebrow">Core values</span>
+        <h2 id="vision-heading">What guides everything we do</h2>
+        <div class="values-grid">
+          <div class="value-card">
+            <h4><i class="ti ti-heart" aria-hidden="true" style="margin-right: 6px;"></i>Dignity</h4>
+            <p>Every person we serve is treated with full respect and unconditional compassion.</p>
+          </div>
+          <div class="value-card">
+            <h4><i class="ti ti-eye" aria-hidden="true" style="margin-right: 6px;"></i>Transparency</h4>
+            <p>We publish clear financials and detailed impact reports — always, without exception.</p>
+          </div>
+          <div class="value-card">
+            <h4><i class="ti ti-users" aria-hidden="true" style="margin-right: 6px;"></i>Community-led</h4>
+            <p>Real solutions come from within the communities we serve, not from the outside.</p>
+          </div>
+          <div class="value-card">
+            <h4><i class="ti ti-chart-line" aria-hidden="true" style="margin-right: 6px;"></i>Evidence-based</h4>
+            <p>We measure outcomes rigorously and adapt quickly when something isn't working.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section section-white" aria-labelledby="team-heading">
+      <div class="container">
+        <span class="eyebrow">Our team &amp; board</span>
+        <h2 id="team-heading">The people behind the mission</h2>
+        <p class="section-intro">Our diverse team brings together expertise from healthcare, education, nonprofit management, and community organizing.</p>
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-avatar" aria-hidden="true"><i class="ti ti-user"></i></div>
+            <div class="team-name">Dr. Maria Santos</div>
+            <div class="team-role">Executive Director</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar" aria-hidden="true"><i class="ti ti-user"></i></div>
+            <div class="team-name">James Okafor</div>
+            <div class="team-role">Board Chair</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar" aria-hidden="true"><i class="ti ti-user"></i></div>
+            <div class="team-name">Priya Nair</div>
+            <div class="team-role">Director of Programs</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar" aria-hidden="true"><i class="ti ti-user"></i></div>
+            <div class="team-name">Tomás Rivera</div>
+            <div class="team-role">Community Liaison</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar" aria-hidden="true"><i class="ti ti-user"></i></div>
+            <div class="team-name">Angela Webb</div>
+            <div class="team-role">Finance &amp; Ops</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar" aria-hidden="true"><i class="ti ti-user"></i></div>
+            <div class="team-name">DeShawn Harris</div>
+            <div class="team-role">Volunteer Coordinator</div>
+          </div>
+          <div class="team-card placeholder" aria-label="Team member placeholder">
+            <i class="ti ti-plus" aria-hidden="true"></i>
+            <div class="team-role">Your photo here</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /page-about -->
+
+
+  <!-- ═══════════════════════════════
+       PROGRAMS PAGE
+  ═══════════════════════════════ -->
+  <div id="page-programs" class="page">
+
+    <section class="hero hero-sm" aria-label="Programs hero">
+      <div class="container hero-inner">
+        <span class="eyebrow eyebrow-gold">Programs &amp; Services</span>
+        <h1>How we create<br>lasting change</h1>
+        <p style="margin-bottom: 0;">Two core initiatives. Thousands of lives transformed.</p>
+      </div>
+    </section>
+
+    <section class="section section-white" aria-labelledby="programs-heading">
+      <div class="container">
+        <span class="eyebrow">Core initiatives</span>
+        <h2 id="programs-heading">What we do every day</h2>
+        <p class="section-intro">Each program is designed with the community's input, rigorously evaluated, and built to create sustainable outcomes — not just short-term relief.</p>
+
+        <div class="program-card">
+          <div class="program-icon" aria-hidden="true"><i class="ti ti-droplet-filled"></i></div>
+          <div>
+            <div class="pill-badge">Initiative 1</div>
+            <h3>Clean Water Access Program</h3>
+            <p>We install low-cost water filtration systems in homes and community centers, distribute certified water-quality kits, and train local leaders in maintenance and hygiene education. Since 2010, we have eliminated waterborne illness from 14 partner communities. Each installation comes with a 2-year maintenance guarantee and ongoing community health check-ins.</p>
+          </div>
+        </div>
+
+        <div class="program-card">
+          <div class="program-icon" aria-hidden="true"><i class="ti ti-book-2"></i></div>
+          <div>
+            <div class="pill-badge">Initiative 2</div>
+            <h3>Youth Education &amp; Nutrition Initiative</h3>
+            <p>Our after-school centers provide tutoring, hot nutritious meals, and social-emotional support for children ages 5–18. We partner with local schools and healthcare providers to ensure no child falls through the cracks due to hunger or learning gaps. Students in our program show a 32% improvement in reading proficiency within the first academic year.</p>
+          </div>
+        </div>
+
+        <div class="service-cta-box">
+          <h3>Need our services?</h3>
+          <p>If you or someone in your community could benefit from our programs, please reach out. We connect you with the right support — no paperwork barriers, no judgment, no waitlists for urgent needs.</p>
+          <div class="cta-btn-group">
+            <button class="btn btn-emerald" onclick="showPage('contact')">
+              <i class="ti ti-send" aria-hidden="true"></i> Request Services
+            </button>
+            <button class="btn btn-outline" onclick="showPage('contact')">Refer Someone</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /page-programs -->
+
+
+  <!-- ═══════════════════════════════
+       DONATE / TAKE ACTION PAGE
+  ═══════════════════════════════ -->
+  <div id="page-donate" class="page">
+
+    <section class="hero hero-sm" aria-label="Donate hero">
+      <div class="container hero-inner">
+        <span class="eyebrow eyebrow-gold">Take action</span>
+        <h1>Your generosity<br>changes lives</h1>
+        <p style="margin-bottom: 0;">Every dollar goes directly to the communities that need it most.</p>
+      </div>
+    </section>
+
+    <!-- HOW FUNDS ARE USED -->
+    <section class="section section-white" aria-labelledby="funds-heading">
+      <div class="container">
+        <span class="eyebrow">How your gift helps</span>
+        <h2 id="funds-heading">Every dollar has a destination</h2>
+        <p class="section-intro">We allocate 87 cents of every dollar directly to programs. Here's exactly what your giving makes possible.</p>
+        <div class="fund-grid">
+          <div class="fund-item">
+            <div class="fund-dot" aria-hidden="true"></div>
+            <p><strong>$25</strong> provides one complete clean water kit for a family of four</p>
+          </div>
+          <div class="fund-item">
+            <div class="fund-dot" aria-hidden="true"></div>
+            <p><strong>$50</strong> feeds a child nutritious after-school meals for one full month</p>
+          </div>
+          <div class="fund-item">
+            <div class="fund-dot" aria-hidden="true"></div>
+            <p><strong>$100</strong> sponsors one student's after-school program for an entire semester</p>
+          </div>
+          <div class="fund-item">
+            <div class="fund-dot" aria-hidden="true"></div>
+            <p><strong>$250</strong> installs a water filtration unit in a community center serving 80+ people</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DONATION WIDGET -->
+    <section class="section section-cream" aria-labelledby="give-heading">
+      <div class="container">
+        <div style="max-width: 560px; margin: 0 auto;">
+          <span class="eyebrow">Make a gift</span>
+          <h2 id="give-heading">Choose your giving type</h2>
+          <p class="section-intro" style="margin-bottom: 28px;">Monthly gifts provide reliable support so we can plan long-term programs.</p>
+
+          <div class="giving-card">
+            <div class="giving-toggle" role="group" aria-label="Giving frequency">
+              <button class="toggle-btn active" id="tog-monthly" onclick="setToggle('monthly')">Monthly</button>
+              <button class="toggle-btn" id="tog-once" onclick="setToggle('once')">One-time</button>
+            </div>
+
+            <div class="amount-grid" role="group" aria-label="Donation amount">
+              <button class="amount-btn" onclick="selectAmount(this,'$25')">$25</button>
+              <button class="amount-btn selected" onclick="selectAmount(this,'$50')">$50</button>
+              <button class="amount-btn" onclick="selectAmount(this,'$100')">$100</button>
+              <button class="amount-btn" onclick="selectAmount(this,'Other')">Other</button>
+            </div>
+            <p class="impact-label" id="impact-text">$50/month feeds a child nutritious meals for an entire year.</p>
+
+            <div style="margin-bottom: 14px;">
+              <label for="card-number">Card number</label>
+              <input type="text" id="card-number" placeholder="•••• •••• •••• ••••" autocomplete="cc-number" inputmode="numeric">
+            </div>
+            <div class="card-row">
+              <div>
+                <label for="card-expiry">Expiry date</label>
+                <input type="text" id="card-expiry" placeholder="MM / YY" autocomplete="cc-exp">
+              </div>
+              <div>
+                <label for="card-cvc">CVC</label>
+                <input type="text" id="card-cvc" placeholder="•••" autocomplete="cc-csc">
+              </div>
+            </div>
+
+            <div class="secure-badge">
+              <i class="ti ti-lock" aria-hidden="true"></i>
+              <span>256-bit SSL encryption &nbsp;·&nbsp; Processed securely &nbsp;·&nbsp; Receipts emailed instantly</span>
+            </div>
+
+            <button class="btn btn-emerald btn-full" onclick="handleDonate()">
+              <i class="ti ti-heart" aria-hidden="true"></i> Donate Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOLUNTEER SIGN-UP -->
+    <section class="section section-white" aria-labelledby="volunteer-heading">
+      <div class="container">
+        <div style="max-width: 640px; margin: 0 auto;">
+          <span class="eyebrow">Volunteer</span>
+          <h2 id="volunteer-heading">Give your time &amp; talent</h2>
+          <p class="section-intro" style="margin-bottom: 28px;">No special skills required — just a willingness to show up. We'll match you with opportunities that fit your schedule and strengths.</p>
+
+          <div class="form-section">
+            <div class="form-grid">
+              <div>
+                <label for="vol-name">Full name <span aria-hidden="true">*</span></label>
+                <input type="text" id="vol-name" placeholder="Your full name" required autocomplete="name">
+              </div>
+              <div>
+                <label for="vol-email">Email address <span aria-hidden="true">*</span></label>
+                <input type="email" id="vol-email" placeholder="you@example.com" required autocomplete="email">
+              </div>
+              <div>
+                <label for="vol-phone">Phone number</label>
+                <input type="tel" id="vol-phone" placeholder="(555) 000-0000" autocomplete="tel">
+              </div>
+              <div>
+                <label for="vol-availability">Availability</label>
+                <select id="vol-availability">
+                  <option value="">Select availability</option>
+                  <option>Weekends</option>
+                  <option>Weekday evenings</option>
+                  <option>Flexible / Remote</option>
+                  <option>Seasonal</option>
+                </select>
+              </div>
+              <div class="form-full">
+                <label>Areas of interest</label>
+                <div class="chip-group" id="chip-group" aria-label="Select areas of interest">
+                  <span class="chip" role="checkbox" aria-checked="false" tabindex="0" onclick="toggleChip(this)" onkeydown="chipKeydown(event,this)">Water programs</span>
+                  <span class="chip active" role="checkbox" aria-checked="true" tabindex="0" onclick="toggleChip(this)" onkeydown="chipKeydown(event,this)">Youth tutoring</span>
+                  <span class="chip" role="checkbox" aria-checked="false" tabindex="0" onclick="toggleChip(this)" onkeydown="chipKeydown(event,this)">Fundraising</span>
+                  <span class="chip" role="checkbox" aria-checked="false" tabindex="0" onclick="toggleChip(this)" onkeydown="chipKeydown(event,this)">Communications</span>
+                  <span class="chip" role="checkbox" aria-checked="false" tabindex="0" onclick="toggleChip(this)" onkeydown="chipKeydown(event,this)">Events &amp; logistics</span>
+                  <span class="chip" role="checkbox" aria-checked="false" tabindex="0" onclick="toggleChip(this)" onkeydown="chipKeydown(event,this)">Grant writing</span>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-emerald btn-full" onclick="handleVolunteer()" style="margin-top: 6px;">
+              <i class="ti ti-send" aria-hidden="true"></i> Sign Up to Volunteer
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /page-donate -->
+
+
+  <!-- ═══════════════════════════════
+       CONTACT PAGE
+  ═══════════════════════════════ -->
+  <div id="page-contact" class="page">
+
+    <section class="hero hero-sm" aria-label="Contact hero">
+      <div class="container hero-inner">
+        <span class="eyebrow eyebrow-gold">Get in touch</span>
+        <h1>We'd love to<br>hear from you</h1>
+        <p style="margin-bottom: 0;">Questions, partnership inquiries, service requests — we read every message.</p>
+      </div>
+    </section>
+
+    <section class="section section-white" aria-labelledby="contact-heading">
+      <div class="container">
+        <h2 id="contact-heading" class="sr-only">Contact information and form</h2>
+        <div class="contact-grid">
+
+          <!-- FORM -->
+          <div>
+            <span class="eyebrow">Send us a message</span>
+            <h3 style="font-size: 22px; margin-bottom: 22px;">We reply within one business day</h3>
+            <form onsubmit="handleContact(event)" novalidate>
+              <div style="margin-bottom: 14px;">
+                <label for="c-name">Your name <span aria-hidden="true">*</span></label>
+                <input type="text" id="c-name" placeholder="Full name" required autocomplete="name">
+              </div>
+              <div style="margin-bottom: 14px;">
+                <label for="c-email">Email address <span aria-hidden="true">*</span></label>
+                <input type="email" id="c-email" placeholder="you@example.com" required autocomplete="email">
+              </div>
+              <div style="margin-bottom: 20px;">
+                <label for="c-message">Message <span aria-hidden="true">*</span></label>
+                <textarea id="c-message" placeholder="How can we help you?" required style="min-height: 120px;"></textarea>
+              </div>
+              <button type="submit" class="btn btn-emerald btn-full">
+                <i class="ti ti-send" aria-hidden="true"></i> Send Message
+              </button>
+            </form>
+          </div>
+
+          <!-- CONTACT INFO -->
+          <div>
+            <span class="eyebrow">Find us</span>
+            <h3 style="font-size: 22px; margin-bottom: 20px;">Contact information</h3>
+
+            <div class="info-row">
+              <i class="ti ti-map-pin" aria-hidden="true"></i>
+              <div>
+                <strong>123 Horizons Drive</strong><br>
+                Smithfield, NC 27577
+              </div>
+            </div>
+            <div class="info-row">
+              <i class="ti ti-phone" aria-hidden="true"></i>
+              <a href="tel:+19195550182" style="color:inherit; text-decoration:none;">(919) 555-0182</a>
+            </div>
+            <div class="info-row">
+              <i class="ti ti-mail" aria-hidden="true"></i>
+              <a href="mailto:hello@brighthorizonsfoundation.org" style="color:inherit; text-decoration:none;">hello@brighthorizonsfoundation.org</a>
+            </div>
+            <div class="info-row">
+              <i class="ti ti-clock" aria-hidden="true"></i>
+              <span>Mon – Fri, 9 AM – 5 PM ET</span>
+            </div>
+
+            <div style="margin-top: 28px;">
+              <span class="eyebrow">Follow us</span>
+              <div class="social-links" aria-label="Social media links">
+                <a href="#" class="social-link" aria-label="Facebook"><i class="ti ti-brand-facebook" aria-hidden="true"></i></a>
+                <a href="#" class="social-link" aria-label="Instagram"><i class="ti ti-brand-instagram" aria-hidden="true"></i></a>
+                <a href="#" class="social-link" aria-label="Twitter / X"><i class="ti ti-brand-x" aria-hidden="true"></i></a>
+                <a href="#" class="social-link" aria-label="LinkedIn"><i class="ti ti-brand-linkedin" aria-hidden="true"></i></a>
+                <a href="#" class="social-link" aria-label="YouTube"><i class="ti ti-brand-youtube" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /page-contact -->
+
+  </main><!-- /main-content -->
+
+
+  <!-- ═══════════════════════════════
+       FOOTER (all pages)
+  ═══════════════════════════════ -->
+  <footer>
+    <div class="footer-main">
+      <div class="container">
+        <div class="footer-grid">
+
+          <div class="footer-brand">
+            <span class="footer-brand-logo">Bright<span>Horizons</span></span>
+            <p>A 501(c)(3) nonprofit organization dedicated to clean water access and youth education across North Carolina since 2008.</p>
+            <p class="footer-legal">EIN: 56-1234567 &nbsp;·&nbsp; All donations are tax-deductible to the full extent permitted by law. &nbsp;·&nbsp; No goods or services were provided in exchange for your contribution.</p>
+            <div class="footer-donate-wrap">
+              <button class="footer-donate-btn" onclick="showPage('donate')">
+                <i class="ti ti-heart" aria-hidden="true"></i> Donate
+              </button>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Navigate</h4>
+            <ul class="footer-links">
+              <li><a href="#" onclick="showPage('home')">Home</a></li>
+              <li><a href="#" onclick="showPage('about')">About Us</a></li>
+              <li><a href="#" onclick="showPage('programs')">Programs</a></li>
+              <li><a href="#" onclick="showPage('donate')">Donate</a></li>
+              <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Programs</h4>
+            <ul class="footer-links">
+              <li><a href="#" onclick="showPage('programs')">Clean Water Access</a></li>
+              <li><a href="#" onclick="showPage('programs')">Youth Education</a></li>
+              <li><a href="#" onclick="showPage('programs')">Request Services</a></li>
+              <li><a href="#" onclick="showPage('donate')">Volunteer</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Stay connected</h4>
+            <p style="font-size: 13px; margin-bottom: 12px; color: rgba(255,255,255,0.6);">Impact stories and updates, straight to your inbox.</p>
+            <div class="newsletter-form">
+              <input type="email" placeholder="Your email" aria-label="Newsletter email">
+              <button type="button" onclick="handleNewsletter()">Join</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© 2026 Bright Horizons Foundation. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+          <a href="#">Annual Report</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    /* ── PAGE ROUTER ── */
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+
+      const page = document.getElementById('page-' + id);
+      if (page) page.classList.add('active');
+
+      const pages = ['home','about','programs','donate','contact'];
+      const idx = pages.indexOf(id);
+      const links = document.querySelectorAll('.nav-links a');
+      if (idx >= 0 && links[idx]) links[idx].classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Close mobile menu
+      document.getElementById('nav-links').classList.remove('open');
+    }
+
+    /* ── MOBILE MENU ── */
+    function toggleMenu() {
+      document.getElementById('nav-links').classList.toggle('open');
+    }
+
+    /* ── DONATION TOGGLE ── */
+    var currentType = 'monthly';
+    var currentAmount = '$50';
+
+    var impactMap = {
+      monthly: {
+        '$25':  '$25/month provides clean water for three families throughout the entire year.',
+        '$50':  '$50/month feeds a child nutritious meals for an entire year.',
+        '$100': '$100/month sponsors two students in after-school programs for a full year.',
+        'Other':'Every dollar makes a real, lasting difference. Thank you for your generosity.'
+      },
+      once: {
+        '$25':  '$25 provides one complete clean water kit for a family of four.',
+        '$50':  '$50 feeds a child nutritious after-school meals for one full month.',
+        '$100': '$100 sponsors one student for an entire semester of after-school support.',
+        'Other':'Every dollar makes a real, lasting difference. Thank you for your generosity.'
+      }
+    };
+
+    function setToggle(type) {
+      currentType = type;
+      document.getElementById('tog-monthly').classList.toggle('active', type === 'monthly');
+      document.getElementById('tog-once').classList.toggle('active', type === 'once');
+      updateImpact();
+    }
+
+    function selectAmount(btn, label) {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      btn.setAttribute('aria-pressed', 'true');
+      currentAmount = label;
+      updateImpact();
+    }
+
+    function updateImpact() {
+      var text = (impactMap[currentType] && impactMap[currentType][currentAmount])
+        ? impactMap[currentType][currentAmount]
+        : impactMap['monthly']['$50'];
+      document.getElementById('impact-text').textContent = text;
+    }
+
+    /* ── INTEREST CHIPS ── */
+    function toggleChip(el) {
+      var isActive = el.classList.toggle('active');
+      el.setAttribute('aria-checked', isActive ? 'true' : 'false');
+    }
+    function chipKeydown(e, el) {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleChip(el); }
+    }
+
+    /* ── FORM HANDLERS (placeholder alerts) ── */
+    function handleDonate() {
+      alert('Thank you for your generosity!\n\nIn a live site, this would securely process your donation through Stripe or a similar payment processor. A receipt would be emailed to you immediately.');
+    }
+
+    function handleVolunteer() {
+      var name = document.getElementById('vol-name').value.trim();
+      var email = document.getElementById('vol-email').value.trim();
+      if (!name || !email) { alert('Please fill in your name and email address.'); return; }
+      alert('Thank you for signing up, ' + name + '!\n\nWe\'ll be in touch within 2 business days to match you with volunteer opportunities that fit your schedule and interests.');
+      document.getElementById('vol-name').value = '';
+      document.getElementById('vol-email').value = '';
+      document.getElementById('vol-phone').value = '';
+    }
+
+    function handleContact(e) {
+      e.preventDefault();
+      var name = document.getElementById('c-name').value.trim();
+      if (!name) { alert('Please fill in all required fields.'); return; }
+      alert('Message sent, ' + name + '!\n\nWe\'ll reply within one business day. Thank you for reaching out.');
+      e.target.reset();
+    }
+
+    function handleNewsletter() {
+      alert('Thank you for subscribing!\n\nYou\'ll receive our next impact update in your inbox soon.');
+    }
+  </script>
+
+</body>
+</html>

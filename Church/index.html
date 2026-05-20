@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grace Community Church</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       SITE CONFIGURATION — edit here to change content
+       ============================================================ */
+
+    /* ============================================================
+       CSS CUSTOM PROPERTIES — THEME
+       ============================================================ */
+    :root {
+      --primary:    #1B3A4B;   /* Deep teal-navy */
+      --primary-lt: #234E63;
+      --primary-dk: #112530;
+      --accent:     #C8860A;   /* Warm amber */
+      --accent-lt:  #E8A020;
+      --accent-pale:#FDF3E3;
+      --surface:    #FFFFFF;
+      --bg:         #F7F5F0;   /* Warm off-white */
+      --bg2:        #EEE9E0;
+      --text:       #1A1A1A;
+      --text-md:    #4A4A4A;
+      --text-lt:    #7A7A7A;
+      --border:     #D9D4CC;
+      --radius-sm:  6px;
+      --radius-md:  12px;
+      --radius-lg:  20px;
+      --shadow-sm:  0 2px 8px rgba(0,0,0,0.07);
+      --shadow-md:  0 6px 24px rgba(0,0,0,0.10);
+      --transition: 0.25s ease;
+      --font-display: 'Lora', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { display: block; width: 100%; object-fit: cover; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { cursor: pointer; font-family: var(--font-body); }
+    input, textarea { font-family: var(--font-body); }
+
+    /* ============================================================
+       UTILITIES
+       ============================================================ */
+    .container {
+      width: min(1160px, 100% - 3rem);
+      margin-inline: auto;
+    }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--primary-dk);
+    }
+    .section-subtitle {
+      color: var(--text-md);
+      font-size: 1.05rem;
+      margin-top: 0.75rem;
+      max-width: 52ch;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      border-radius: 50px;
+      font-size: 0.93rem;
+      font-weight: 600;
+      transition: all var(--transition);
+      border: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover {
+      background: var(--accent-lt);
+      border-color: var(--accent-lt);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(200,134,10,0.35);
+    }
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border-color: rgba(255,255,255,0.7);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: #fff;
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Fade-up animation */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       NAVBAR
+       ============================================================ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: transparent;
+      transition: background 0.35s, box-shadow 0.35s;
+    }
+    #navbar.scrolled {
+      background: var(--primary-dk);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-logo-icon svg { width: 18px; height: 18px; fill: #fff; }
+    .nav-logo-text {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.15;
+    }
+    .nav-logo-sub {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.65);
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.2rem;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width var(--transition);
+      border-radius: 2px;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.45rem 1.2rem;
+      border-radius: 50px;
+      font-weight: 600 !important;
+      transition: background var(--transition), transform var(--transition) !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--accent-lt) !important; transform: translateY(-1px); }
+
+    /* Burger */
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      padding: 6px;
+      z-index: 1100;
+    }
+    .burger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--primary-dk);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    .mobile-menu.open {
+      opacity: 1;
+      transform: translateX(0);
+      display: flex;
+    }
+    .mobile-menu a {
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 500;
+      transition: color var(--transition);
+    }
+    .mobile-menu a:hover { color: var(--accent-lt); }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    #hero {
+      min-height: 100svh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1544427920-c49ccfb85579?w=1800&auto=format&fit=crop&q=80') center/cover no-repeat;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(17,37,48,0.92) 0%, rgba(27,58,75,0.78) 60%, rgba(17,37,48,0.55) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      padding-top: 80px;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(200,134,10,0.2);
+      border: 1px solid rgba(200,134,10,0.4);
+      color: var(--accent-lt);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+      animation: fadeInDown 0.8s ease forwards;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.12;
+      color: #fff;
+      margin-bottom: 1.25rem;
+      animation: fadeInUp 0.8s 0.15s ease both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent-lt);
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.15rem);
+      color: rgba(255,255,255,0.8);
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+      max-width: 50ch;
+      animation: fadeInUp 0.8s 0.3s ease both;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s 0.45s ease both;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll svg { width: 20px; opacity: 0.6; }
+    .hero-stat-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: space-around;
+      padding: 1.2rem 0;
+    }
+    .hero-stat {
+      text-align: center;
+    }
+    .hero-stat strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--accent-lt);
+      font-weight: 600;
+    }
+    .hero-stat span {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       ABOUT / WHO WE ARE
+       ============================================================ */
+    #about {
+      padding: 7rem 0;
+      background: var(--surface);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-values {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .value-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .value-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .value-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; stroke-width: 2; }
+    .value-title { font-weight: 600; font-size: 0.95rem; color: var(--primary-dk); margin-bottom: 0.2rem; }
+    .value-desc { font-size: 0.88rem; color: var(--text-lt); line-height: 1.6; }
+    .about-quote {
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-pale);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+    .about-quote p {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--primary-dk);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .about-quote cite {
+      display: block;
+      font-family: var(--font-body);
+      font-style: normal;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: 0.6rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    /* Image card */
+    .about-image-col {
+      position: relative;
+    }
+    .about-img-main {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      box-shadow: var(--shadow-md);
+    }
+    .about-img-main img {
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+    .about-img-main:hover img { transform: scale(1.03); }
+    .about-img-badge {
+      position: absolute;
+      bottom: -2rem;
+      left: -2rem;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.4rem;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      border: 1px solid var(--border);
+    }
+    .badge-icon {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .badge-icon svg { width: 22px; height: 22px; fill: #fff; }
+    .badge-label { font-size: 0.78rem; color: var(--text-lt); }
+    .badge-value { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--primary-dk); }
+    .about-img-top {
+      position: absolute;
+      top: -1.5rem;
+      right: -1.5rem;
+      width: 120px;
+      aspect-ratio: 1;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 3px solid var(--surface);
+    }
+
+    /* ============================================================
+       EVENTS
+       ============================================================ */
+    #events {
+      padding: 7rem 0;
+      background: var(--bg);
+    }
+    .events-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .event-card {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    .event-card-top {
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+    .event-card-top img { height: 100%; transition: transform 0.5s; }
+    .event-card:hover .event-card-top img { transform: scale(1.06); }
+    .event-category {
+      position: absolute;
+      top: 0.9rem;
+      left: 0.9rem;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 50px;
+    }
+    .event-date-badge {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.9rem;
+      background: var(--primary-dk);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.7rem;
+      text-align: center;
+      line-height: 1.2;
+      min-width: 52px;
+    }
+    .date-month {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-lt);
+    }
+    .date-day {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+    .event-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+    .event-time {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--text-lt);
+      margin-bottom: 0.6rem;
+    }
+    .event-time svg { width: 14px; height: 14px; stroke: var(--text-lt); fill: none; stroke-width: 2; }
+    .event-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary-dk);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .event-desc {
+      font-size: 0.88rem;
+      color: var(--text-md);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1.2rem;
+    }
+    .event-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      margin-top: auto;
+    }
+    .event-location {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      color: var(--text-lt);
+    }
+    .event-location svg { width: 13px; stroke: var(--text-lt); fill: none; stroke-width: 2; }
+    .event-detail-btn {
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: none;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .event-detail-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* ============================================================
+       CONTACT
+       ============================================================ */
+    #contact {
+      padding: 7rem 0;
+      background: var(--surface);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4.5rem;
+      align-items: start;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+    .contact-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .contact-icon {
+      width: 46px; height: 46px;
+      border-radius: var(--radius-sm);
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-icon svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
+    .contact-item-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-lt); }
+    .contact-item-value { font-size: 0.95rem; color: var(--primary-dk); line-height: 1.5; }
+    .map-placeholder {
+      margin-top: 2rem;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      height: 200px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .map-placeholder img { height: 100%; }
+    .map-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(27,58,75,0.08);
+    }
+    .map-pin {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 4px 12px rgba(200,134,10,0.4);
+    }
+    .map-pin svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2.5; }
+
+    /* Contact Form */
+    .contact-form-card {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+    }
+    .form-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--primary-dk);
+      margin-bottom: 0.4rem;
+    }
+    .form-subtitle { font-size: 0.88rem; color: var(--text-lt); margin-bottom: 1.8rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1.1rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary-dk);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.03em;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      font-size: 0.93rem;
+      color: var(--text);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(27,58,75,0.12);
+    }
+    .form-group textarea { height: 130px; resize: vertical; }
+    .form-submit {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+    .form-submit:hover {
+      background: var(--primary-lt);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(27,58,75,0.3);
+    }
+    .form-submit svg { width: 17px; height: 17px; stroke: #fff; fill: none; stroke-width: 2.5; }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    .form-success svg { width: 48px; height: 48px; stroke: #2e7d32; fill: none; stroke-width: 1.5; margin: 0 auto 1rem; }
+    .form-success h3 { font-family: var(--font-display); color: var(--primary-dk); margin-bottom: 0.5rem; }
+    .form-success p { color: var(--text-lt); font-size: 0.9rem; }
+
+    /* ============================================================
+       SCRIPTURE BANNER
+       ============================================================ */
+    .scripture-banner {
+      background: var(--primary);
+      padding: 4.5rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .scripture-banner::before {
+      content: '\201C';
+      position: absolute;
+      top: -1.5rem; left: 3rem;
+      font-size: 18rem;
+      font-family: Georgia, serif;
+      color: rgba(255,255,255,0.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .scripture-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3vw, 1.9rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.92);
+      max-width: 700px;
+      margin: 0 auto 1rem;
+      line-height: 1.55;
+      position: relative;
+    }
+    .scripture-ref {
+      color: var(--accent-lt);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      background: var(--primary-dk);
+      color: rgba(255,255,255,0.7);
+      padding: 4rem 0 1.5rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand p {
+      font-size: 0.88rem;
+      margin-top: 1rem;
+      line-height: 1.7;
+      max-width: 28ch;
+    }
+    .footer-social {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .social-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .social-btn svg { width: 17px; height: 17px; stroke: rgba(255,255,255,0.7); fill: none; stroke-width: 1.8; }
+    .social-btn:hover { background: var(--accent); border-color: var(--accent); }
+    .social-btn:hover svg { stroke: #fff; }
+    .footer-col h4 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { display: flex; flex-direction: column; gap: 0.65rem; }
+    .footer-col ul a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.65);
+      transition: color var(--transition);
+    }
+    .footer-col ul a:hover { color: var(--accent-lt); }
+    .footer-service-times { display: flex; flex-direction: column; gap: 0.6rem; }
+    .service-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.84rem;
+      color: rgba(255,255,255,0.65);
+    }
+    .service-row strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+    .service-time-badge {
+      background: rgba(200,134,10,0.2);
+      color: var(--accent-lt);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .footer-bottom p { font-size: 0.8rem; color: rgba(255,255,255,0.35); }
+    .footer-bottom a { color: rgba(255,255,255,0.45); transition: color var(--transition); font-size: 0.8rem; }
+    .footer-bottom a:hover { color: var(--accent-lt); }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-img-badge { left: 1rem; bottom: -1rem; }
+      .about-img-top { display: none; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .hero-stats { flex-wrap: wrap; gap: 1rem; justify-content: center; }
+      .events-header { flex-direction: column; align-items: flex-start; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .contact-form-card { padding: 1.5rem; }
+    }
+    @media (max-width: 400px) {
+      .hero-ctas { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================================================================
+     SITE CONFIGURATION — non-technical editors: update values here
+     ================================================================ -->
+<script>
+const CONFIG = {
+  /* --- Organization --- */
+  orgName:    "Grace Community",
+  orgSubtitle: "Church",
+  tagline:    "Established 1987 · Smithfield, NC",
+
+  /* --- Hero --- */
+  heroTag:   "Welcome Home",
+  heroTitle: ["Rooted in Faith,", "Built on", "Community."],
+  heroSub:   "A welcoming church family where every person is valued, every story matters, and every life can be transformed by grace.",
+  heroBg:    "https://images.unsplash.com/photo-1544427920-c49ccfb85579?w=1800&auto=format&fit=crop&q=80",
+  heroStats: [
+    { value: "37+",  label: "Years Serving" },
+    { value: "800+", label: "Weekly Attendees" },
+    { value: "12",   label: "Life Groups" },
+    { value: "4",    label: "Weekly Services" },
+  ],
+
+  /* --- About --- */
+  aboutLabel: "Who We Are",
+  aboutTitle: "A Family Built on Faith, Love & Purpose",
+  aboutSub:   "We are a diverse community of believers committed to growing together in faith and serving our neighbors with compassion.",
+  aboutValues: [
+    {
+      title: "Authentic Worship",
+      desc:  "We believe worship transforms us. Every gathering is a space to encounter God's presence together.",
+    },
+    {
+      title: "Radical Hospitality",
+      desc:  "No matter your background or story, you belong here. Our doors and hearts are always open.",
+    },
+    {
+      title: "Serving Our Community",
+      desc:  "From the food pantry to youth programs, we love our city by meeting real needs with real care.",
+    },
+  ],
+  aboutQuote:  "We exist to know God, grow together, and make a difference in our community and beyond.",
+  aboutQuoteAuthor: "— Pastor David Lawson",
+  aboutImage:  "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=900&auto=format&fit=crop&q=80",
+  aboutImageAlt: "Congregation worshipping together",
+  aboutBadge:  { value: "800+", label: "Lives Changed" },
+  aboutImageSmall: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&auto=format&fit=crop&q=80",
+
+  /* --- Scripture Banner --- */
+  scriptureText: "For where two or three gather in my name, there am I with them.",
+  scriptureRef:  "Matthew 18:20",
+
+  /* --- Events --- */
+  eventsLabel: "Calendar",
+  eventsTitle: "Upcoming Events",
+  eventsSub:   "Join us for worship, community, and service throughout the week.",
+  events: [
+    {
+      month: "JUN", day: "01", category: "Worship",
+      title:    "Sunday Morning Service",
+      time:     "9:00 AM & 11:00 AM",
+      desc:     "Join us for Spirit-filled worship, relevant teaching from scripture, and genuine community. Children's ministry available.",
+      location: "Main Sanctuary",
+      image:    "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=600&auto=format&fit=crop&q=80",
+    },
+    {
+      month: "JUN", day: "04", category: "Study",
+      title:    "Wednesday Bible Study",
+      time:     "7:00 PM – 8:30 PM",
+      desc:     "Deep-dive into scripture with our pastoral team in a small-group format. This week: the Book of James.",
+      location: "Fellowship Hall",
+      image:    "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=600&auto=format&fit=crop&q=80",
+    },
+    {
+      month: "JUN", day: "08", category: "Outreach",
+      title:    "Community Food Drive",
+      time:     "10:00 AM – 2:00 PM",
+      desc:     "Help pack and distribute food boxes for over 300 families in Johnston County. Volunteers are needed and welcome!",
+      location: "Church Parking Lot",
+      image:    "https://images.unsplash.com/photo-1593113616828-6f22bca04804?w=600&auto=format&fit=crop&q=80",
+    },
+    {
+      month: "JUN", day: "15", category: "Youth",
+      title:    "Youth Summer Kickoff",
+      time:     "6:00 PM – 9:00 PM",
+      desc:     "Middle and high schoolers — come for games, live music, food, and a special message just for you. Bring a friend!",
+      location: "Youth Center",
+      image:    "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&auto=format&fit=crop&q=80",
+    },
+    {
+      month: "JUN", day: "21", category: "Worship",
+      title:    "Night of Prayer & Worship",
+      time:     "7:30 PM – 9:30 PM",
+      desc:     "A special evening of extended worship and corporate prayer. Come expectant; come as you are.",
+      location: "Main Sanctuary",
+      image:    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&auto=format&fit=crop&q=80",
+    },
+    {
+      month: "JUN", day: "28", category: "Life Groups",
+      title:    "Life Groups Launch Sunday",
+      time:     "After Each Service",
+      desc:     "Sign up for a Life Group — our small communities that meet weekly for friendship, study, and support.",
+      location: "Connection Center",
+      image:    "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&auto=format&fit=crop&q=80",
+    },
+  ],
+
+  /* --- Contact --- */
+  contactLabel:   "Get In Touch",
+  contactTitle:   "We'd Love to Hear From You",
+  contactSub:     "Whether you have a question, need prayer, or are visiting for the first time — reach out.",
+  address:        "123 Grace Avenue, Smithfield, NC 27577",
+  phone:          "(919) 555-0147",
+  email:          "hello@gracecommunitync.org",
+  officeHours:    "Mon–Fri: 9:00 AM – 5:00 PM",
+  mapImage:       "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&auto=format&fit=crop&q=80",
+
+  /* --- Footer Service Times --- */
+  serviceTimes: [
+    { day: "Sunday",    time: "9:00 AM" },
+    { day: "Sunday",    time: "11:00 AM" },
+    { day: "Wednesday", time: "7:00 PM" },
+    { day: "Friday",    time: "7:30 PM" },
+  ],
+
+  /* --- Footer --- */
+  footerBlurb: "A Spirit-filled church family in Smithfield, NC — loving God, growing together, and serving our community since 1987.",
+  copyrightYear: 2025,
+
+  /* --- Social media links (replace # with actual URLs) --- */
+  social: {
+    facebook:  "#",
+    instagram: "#",
+    youtube:   "#",
+  },
+};
+</script>
+
+<!-- ================================================================
+     NAVBAR
+     ================================================================ -->
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-logo" id="navLogo">
+      <div class="nav-logo-icon">
+        <!-- Cross icon SVG -->
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10.5" y="2" width="3" height="20" rx="1"/>
+          <rect x="4" y="8" width="16" height="3" rx="1"/>
+        </svg>
+      </div>
+      <div>
+        <span class="nav-logo-text" id="navOrgName">Grace Community</span>
+        <span class="nav-logo-sub" id="navOrgSub">CHURCH</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">Who We Are</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-cta">Plan Your Visit</a></li>
+    </ul>
+
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about"   onclick="closeMobile()">Who We Are</a>
+  <a href="#events"  onclick="closeMobile()">Events</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#contact" class="btn btn-primary" onclick="closeMobile()" style="margin-top:1rem;">Plan Your Visit</a>
+</div>
+
+<!-- ================================================================
+     HERO
+     ================================================================ -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag" id="heroTag"></div>
+      <h1 class="hero-title" id="heroTitle"></h1>
+      <p class="hero-sub" id="heroSub"></p>
+      <div class="hero-ctas">
+        <a href="#events" class="btn btn-primary">Join Us This Sunday</a>
+        <a href="#about"  class="btn btn-outline">Learn More</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="hero-stat-bar">
+    <div class="container">
+      <div class="hero-stats" id="heroStats"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     ABOUT
+     ================================================================ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <!-- Left: Text -->
+      <div class="fade-up">
+        <span class="section-label" id="aboutLabel"></span>
+        <h2 class="section-title" id="aboutTitle"></h2>
+        <p class="section-subtitle" id="aboutSub"></p>
+        <div class="about-values" id="aboutValues"></div>
+        <blockquote class="about-quote" id="aboutQuote"></blockquote>
+        <a href="#contact" class="btn btn-secondary" style="margin-top:2rem;">Plan Your Visit &rarr;</a>
+      </div>
+
+      <!-- Right: Image -->
+      <div class="about-image-col fade-up" style="transition-delay:0.15s;">
+        <div class="about-img-main">
+          <img id="aboutImgMain" src="" alt="" />
+        </div>
+        <div class="about-img-top">
+          <img id="aboutImgSmall" src="" alt="Community" />
+        </div>
+        <div class="about-img-badge" id="aboutBadge"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     SCRIPTURE BANNER
+     ================================================================ -->
+<div class="scripture-banner fade-up">
+  <div class="container">
+    <p class="scripture-text" id="scriptureText"></p>
+    <p class="scripture-ref" id="scriptureRef"></p>
+  </div>
+</div>
+
+<!-- ================================================================
+     EVENTS
+     ================================================================ -->
+<section id="events">
+  <div class="container">
+    <div class="events-header">
+      <div class="fade-up">
+        <span class="section-label" id="eventsLabel"></span>
+        <h2 class="section-title" id="eventsTitle"></h2>
+        <p class="section-subtitle" id="eventsSub"></p>
+      </div>
+      <a href="#contact" class="btn btn-secondary fade-up" style="transition-delay:0.1s;">View Full Calendar &rarr;</a>
+    </div>
+    <div class="events-grid" id="eventsGrid"></div>
+  </div>
+</section>
+
+<!-- ================================================================
+     CONTACT
+     ================================================================ -->
+<section id="contact">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:3.5rem;" class="fade-up">
+      <span class="section-label" id="contactLabel"></span>
+      <h2 class="section-title" id="contactTitle"></h2>
+      <p class="section-subtitle" id="contactSub" style="margin-inline:auto;"></p>
+    </div>
+    <div class="contact-grid">
+
+      <!-- Left: Info -->
+      <div class="fade-up">
+        <div class="contact-info" id="contactInfo"></div>
+        <div class="map-placeholder">
+          <img id="mapImg" src="" alt="Map" />
+          <div class="map-overlay">
+            <div class="map-pin">
+              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Get Directions
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="contact-form-card fade-up" style="transition-delay:0.15s;">
+        <h3 class="form-title">Send Us a Message</h3>
+        <p class="form-subtitle">We'll get back to you within one business day.</p>
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" placeholder="Jane" required />
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" placeholder="Smith" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="jane@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="subject">Topic</label>
+            <select id="subject">
+              <option>General Question</option>
+              <option>Plan My Visit</option>
+              <option>Prayer Request</option>
+              <option>Volunteering</option>
+              <option>Life Groups</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="How can we help you?"></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            Send Message
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+          </button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg>
+          <h3>Message Received!</h3>
+          <p>Thank you for reaching out. Our team will be in touch with you soon. We look forward to connecting!</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     FOOTER
+     ================================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid" id="footerGrid">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="nav-logo-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10.5" y="2" width="3" height="20" rx="1"/>
+              <rect x="4" y="8" width="16" height="3" rx="1"/>
+            </svg>
+          </div>
+          <div>
+            <span class="nav-logo-text" id="footerOrgName"></span>
+            <span class="nav-logo-sub" id="footerOrgSub">CHURCH</span>
+          </div>
+        </div>
+        <p id="footerBlurb"></p>
+        <div class="footer-social" id="footerSocial"></div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#about">Who We Are</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Plan Your Visit</a></li>
+          <li><a href="#contact">Give Online</a></li>
+        </ul>
+      </div>
+
+      <!-- Ministries -->
+      <div class="footer-col">
+        <h4>Ministries</h4>
+        <ul>
+          <li><a href="#events">Children & Youth</a></li>
+          <li><a href="#events">Life Groups</a></li>
+          <li><a href="#events">Worship Team</a></li>
+          <li><a href="#events">Community Outreach</a></li>
+          <li><a href="#events">Missions</a></li>
+        </ul>
+      </div>
+
+      <!-- Service Times -->
+      <div class="footer-col">
+        <h4>Service Times</h4>
+        <div class="footer-service-times" id="serviceTimes"></div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p id="footerCopy"></p>
+      <div style="display:flex; gap:1.5rem;">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ================================================================
+     JAVASCRIPT — renders CONFIG into DOM
+     ================================================================ -->
+<script>
+/* ---------- Helpers ---------- */
+function svgIcon(d, size = 20) {
+  return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+}
+
+/* ---------- Navbar ---------- */
+document.getElementById('navOrgName').textContent = CONFIG.orgName;
+document.getElementById('navOrgSub').textContent   = CONFIG.orgSubtitle.toUpperCase();
+document.getElementById('footerOrgName').textContent = CONFIG.orgName;
+document.getElementById('footerOrgSub').textContent  = CONFIG.orgSubtitle.toUpperCase();
+
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+function closeMobile() {
+  burger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ---------- Hero ---------- */
+document.getElementById('heroBg').style.backgroundImage = `url('${CONFIG.heroBg}')`;
+document.getElementById('heroTag').textContent  = CONFIG.heroTag;
+document.getElementById('heroTitle').innerHTML  =
+  CONFIG.heroTitle.map((l, i) => i === 2 ? `<em>${l}</em>` : l).join('<br>');
+document.getElementById('heroSub').textContent  = CONFIG.heroSub;
+
+const statsEl = document.getElementById('heroStats');
+CONFIG.heroStats.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'hero-stat';
+  el.innerHTML = `<strong>${s.value}</strong><span>${s.label}</span>`;
+  statsEl.appendChild(el);
+});
+
+/* ---------- About ---------- */
+document.getElementById('aboutLabel').textContent = CONFIG.aboutLabel;
+document.getElementById('aboutTitle').textContent = CONFIG.aboutTitle;
+document.getElementById('aboutSub').textContent   = CONFIG.aboutSub;
+
+const valuesEl = document.getElementById('aboutValues');
+const valueIcons = [
+  `<path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>`,
+  `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
+  `<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>`,
+];
+CONFIG.aboutValues.forEach((v, i) => {
+  const el = document.createElement('div');
+  el.className = 'value-item';
+  el.innerHTML = `
+    <div class="value-icon">${svgIcon(valueIcons[i % valueIcons.length])}</div>
+    <div>
+      <div class="value-title">${v.title}</div>
+      <div class="value-desc">${v.desc}</div>
+    </div>`;
+  valuesEl.appendChild(el);
+});
+
+document.getElementById('aboutQuote').innerHTML =
+  `<p>${CONFIG.aboutQuote}</p><cite>${CONFIG.aboutQuoteAuthor}</cite>`;
+
+const aboutImgMain = document.getElementById('aboutImgMain');
+aboutImgMain.src = CONFIG.aboutImage;
+aboutImgMain.alt = CONFIG.aboutImageAlt;
+document.getElementById('aboutImgSmall').src = CONFIG.aboutImageSmall;
+
+document.getElementById('aboutBadge').innerHTML = `
+  <div class="badge-icon">
+    <svg viewBox="0 0 24 24" fill="#fff" width="22" height="22">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+    </svg>
+  </div>
+  <div>
+    <div class="badge-value">${CONFIG.aboutBadge.value}</div>
+    <div class="badge-label">${CONFIG.aboutBadge.label}</div>
+  </div>`;
+
+/* ---------- Scripture ---------- */
+document.getElementById('scriptureText').textContent = `"${CONFIG.scriptureText}"`;
+document.getElementById('scriptureRef').textContent  = `— ${CONFIG.scriptureRef}`;
+
+/* ---------- Events ---------- */
+document.getElementById('eventsLabel').textContent = CONFIG.eventsLabel;
+document.getElementById('eventsTitle').textContent = CONFIG.eventsTitle;
+document.getElementById('eventsSub').textContent   = CONFIG.eventsSub;
+
+const grid = document.getElementById('eventsGrid');
+CONFIG.events.forEach((ev, i) => {
+  const card = document.createElement('div');
+  card.className = 'event-card fade-up';
+  card.style.transitionDelay = `${(i % 3) * 0.1}s`;
+  card.innerHTML = `
+    <div class="event-card-top">
+      <img src="${ev.image}" alt="${ev.title}" loading="lazy" />
+      <span class="event-category">${ev.category}</span>
+      <div class="event-date-badge">
+        <div class="date-month">${ev.month}</div>
+        <div class="date-day">${ev.day}</div>
+      </div>
+    </div>
+    <div class="event-body">
+      <div class="event-time">
+        ${svgIcon('<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>', 14)}
+        ${ev.time}
+      </div>
+      <h3 class="event-title">${ev.title}</h3>
+      <p class="event-desc">${ev.desc}</p>
+      <div class="event-footer">
+        <div class="event-location">
+          ${svgIcon('<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>', 13)}
+          ${ev.location}
+        </div>
+        <button class="event-detail-btn" onclick="alert('Details for: ${ev.title}')">Details</button>
+      </div>
+    </div>`;
+  grid.appendChild(card);
+});
+
+/* ---------- Contact ---------- */
+document.getElementById('contactLabel').textContent = CONFIG.contactLabel;
+document.getElementById('contactTitle').textContent = CONFIG.contactTitle;
+document.getElementById('contactSub').textContent   = CONFIG.contactSub;
+document.getElementById('mapImg').src = CONFIG.mapImage;
+
+const infoData = [
+  {
+    icon: `<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>`,
+    label: "Address", value: CONFIG.address,
+  },
+  {
+    icon: `<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.78h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 10a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.36 17z"/>`,
+    label: "Phone", value: CONFIG.phone,
+  },
+  {
+    icon: `<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>`,
+    label: "Email", value: CONFIG.email,
+  },
+  {
+    icon: `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
+    label: "Office Hours", value: CONFIG.officeHours,
+  },
+];
+const infoEl = document.getElementById('contactInfo');
+infoData.forEach(item => {
+  const d = document.createElement('div');
+  d.className = 'contact-item';
+  d.innerHTML = `
+    <div class="contact-icon">${svgIcon(item.icon)}</div>
+    <div>
+      <div class="contact-item-label">${item.label}</div>
+      <div class="contact-item-value">${item.value}</div>
+    </div>`;
+  infoEl.appendChild(d);
+});
+
+/* Contact form submit */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  this.style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+});
+
+/* ---------- Footer ---------- */
+document.getElementById('footerBlurb').textContent = CONFIG.footerBlurb;
+
+const socialIcons = {
+  facebook:  `<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>`,
+  instagram: `<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>`,
+  youtube:   `<path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>`,
+};
+const socialEl = document.getElementById('footerSocial');
+Object.entries(CONFIG.social).forEach(([key, url]) => {
+  const btn = document.createElement('a');
+  btn.href = url;
+  btn.className = 'social-btn';
+  btn.setAttribute('aria-label', key);
+  btn.innerHTML = svgIcon(socialIcons[key], 17);
+  socialEl.appendChild(btn);
+});
+
+const timesEl = document.getElementById('serviceTimes');
+CONFIG.serviceTimes.forEach(st => {
+  const row = document.createElement('div');
+  row.className = 'service-row';
+  row.innerHTML = `<strong>${st.day}</strong><span class="service-time-badge">${st.time}</span>`;
+  timesEl.appendChild(row);
+});
+
+document.getElementById('footerCopy').textContent =
+  `© ${CONFIG.copyrightYear} ${CONFIG.orgName} ${CONFIG.orgSubtitle}. All rights reserved.`;
+
+/* ---------- Intersection Observer (fade-up) ---------- */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Cozy Fork — Princeton, NC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brown:      #2d1a06;
+      --brown-mid:  #5c3310;
+      --amber:      #c8893a;
+      --amber-lt:   #e8b060;
+      --cream:      #fdf8f0;
+      --off-white:  #f5ede0;
+      --gray-warm:  #8a7060;
+      --text:       #2a1a0a;
+      --white:      #ffffff;
+      --ff-display: 'Playfair Display', Georgia, serif;
+      --ff-body:    'Lato', system-ui, sans-serif;
+      --nav-h:      72px;
+      --ease:       cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--ff-body); color: var(--text); background: var(--cream); overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    .container { width: min(1100px, 100% - 2.5rem); margin-inline: auto; }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h); z-index: 100;
+      background: rgba(45, 26, 6, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,137,58,0.2);
+      transition: box-shadow 0.3s ease;
+    }
+    #nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+    .nav-logo { font-family: var(--ff-display); font-size: 1.4rem; font-weight: 700; color: var(--amber); letter-spacing: 0.02em; }
+    .nav-logo span { color: var(--white); font-style: italic; font-weight: 400; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.65); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-reserve { background: var(--amber); color: var(--brown); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 3px; transition: background 0.2s; }
+    .nav-reserve:hover { background: var(--amber-lt); }
+
+    /* hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; z-index: 200; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s ease; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--brown); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a { font-family: var(--ff-display); font-size: 2.2rem; font-weight: 700; color: rgba(255,255,255,0.8); transition: color 0.2s; }
+    .mobile-menu a:hover { color: var(--amber); }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100svh;
+      padding-top: var(--nav-h);
+      background: var(--brown);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, rgba(45,26,6,0.92) 40%, rgba(45,26,6,0.5) 100%),
+        repeating-linear-gradient(
+          45deg,
+          rgba(200,137,58,0.04) 0px,
+          rgba(200,137,58,0.04) 1px,
+          transparent 1px,
+          transparent 40px
+        );
+    }
+
+    /* Decorative plate rings */
+    .hero-rings { position: absolute; right: 6%; top: 50%; transform: translateY(-50%); width: 420px; height: 420px; }
+    .ring { position: absolute; border-radius: 50%; border: 1px solid rgba(200,137,58,0.2); }
+    .ring:nth-child(1) { inset: 0; }
+    .ring:nth-child(2) { inset: 30px; border-color: rgba(200,137,58,0.12); }
+    .ring:nth-child(3) { inset: 60px; border-color: rgba(200,137,58,0.08); }
+    .ring-center { position: absolute; inset: 90px; border-radius: 50%; background: radial-gradient(circle, rgba(200,137,58,0.15), transparent 70%); }
+
+    .hero-content { position: relative; z-index: 2; padding: 5rem 0; max-width: 580px; }
+
+    .hero-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--amber); display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--amber); }
+
+    .hero-title { font-family: var(--ff-display); font-size: clamp(3rem, 6vw, 5rem); font-weight: 700; color: var(--white); line-height: 1.05; margin-bottom: 0.5rem; }
+    .hero-title em { font-style: italic; font-weight: 400; color: var(--amber); }
+    .hero-subtitle { font-size: 1rem; font-weight: 300; color: rgba(255,255,255,0.6); margin: 1.25rem 0 2.5rem; line-height: 1.8; max-width: 42ch; }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.75rem; font-family: var(--ff-body); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border: none; border-radius: 3px; transition: all 0.25s ease; }
+    .btn-primary { background: var(--amber); color: var(--brown); }
+    .btn-primary:hover { background: var(--amber-lt); transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.35); }
+    .btn-ghost:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
+
+    /* Hours strip */
+    .hero-hours { display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; }
+    .hour-item {}
+    .hour-day { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.2rem; }
+    .hour-time { font-size: 0.9rem; color: rgba(255,255,255,0.7); }
+
+    /* ── SECTION COMMONS ── */
+    section { padding: 6rem 0; }
+    .section-label { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem; }
+    .section-title { font-family: var(--ff-display); font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; color: var(--brown); line-height: 1.2; }
+    .section-title em { font-style: italic; color: var(--amber); font-weight: 400; }
+    .rule { width: 40px; height: 2px; background: var(--amber); margin: 1.25rem 0 1.5rem; }
+    .section-body { font-size: 1rem; font-weight: 300; color: var(--gray-warm); line-height: 1.85; max-width: 52ch; }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── ABOUT / STORY ── */
+    #about { background: var(--cream); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+
+    .about-visual { position: relative; }
+    .about-img-main {
+      width: 100%; aspect-ratio: 4/5;
+      background: linear-gradient(160deg, var(--brown-mid), var(--brown));
+      border-radius: 4px;
+      display: flex; align-items: flex-end;
+      padding: 2rem; overflow: hidden;
+    }
+    .about-img-main::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(0deg, rgba(200,137,58,0.06) 0, rgba(200,137,58,0.06) 1px, transparent 1px, transparent 32px),
+                        repeating-linear-gradient(90deg, rgba(200,137,58,0.06) 0, rgba(200,137,58,0.06) 1px, transparent 1px, transparent 32px);
+    }
+    .about-img-tag { position: relative; z-index: 1; background: var(--amber); color: var(--brown); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 2px; }
+
+    .about-badge {
+      position: absolute; top: -20px; right: -20px;
+      width: 110px; height: 110px;
+      background: var(--amber); border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-shadow: 0 8px 30px rgba(200,137,58,0.4);
+    }
+    .badge-num { font-family: var(--ff-display); font-size: 2rem; font-weight: 700; color: var(--brown); line-height: 1; }
+    .badge-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brown); text-align: center; line-height: 1.3; }
+
+    /* ── MENU ── */
+    #menu { background: var(--off-white); }
+    .menu-header { text-align: center; margin-bottom: 3.5rem; }
+    .menu-header .section-title { margin-bottom: 0; }
+    .menu-header .rule { margin-inline: auto; }
+
+    .menu-tabs { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .menu-tab { font-family: var(--ff-body); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1.3rem; border: 1px solid var(--amber); background: transparent; color: var(--brown-mid); cursor: pointer; border-radius: 3px; transition: all 0.2s ease; }
+    .menu-tab.active, .menu-tab:hover { background: var(--amber); color: var(--white); }
+
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(200,137,58,0.15); }
+    .menu-item { background: var(--cream); padding: 1.5rem 1.75rem; display: flex; gap: 1.25rem; align-items: flex-start; }
+    .menu-item-icon { width: 42px; height: 42px; flex-shrink: 0; background: var(--off-white); border: 1px solid rgba(200,137,58,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .menu-item-name { font-family: var(--ff-display); font-size: 1rem; font-weight: 700; color: var(--brown); margin-bottom: 0.25rem; }
+    .menu-item-desc { font-size: 0.83rem; color: var(--gray-warm); line-height: 1.6; }
+    .menu-item-price { font-family: var(--ff-display); font-size: 1rem; font-weight: 700; color: var(--amber); margin-left: auto; flex-shrink: 0; padding-left: 1rem; }
+
+    /* ── SPECIALS / FEATURES ── */
+    #specials { background: var(--brown); position: relative; overflow: hidden; }
+    #specials::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(200,137,58,0.04) 0, rgba(200,137,58,0.04) 1px, transparent 1px, transparent 36px); }
+
+    .specials-header { text-align: center; position: relative; z-index: 1; }
+    .specials-header .section-title { color: var(--white); }
+    .specials-header .rule { margin-inline: auto; }
+    .specials-header .section-body { color: rgba(255,255,255,0.55); margin-inline: auto; }
+
+    .specials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; position: relative; z-index: 1; }
+    .special-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(200,137,58,0.2); border-radius: 6px; padding: 2rem 1.75rem; transition: background 0.3s ease; }
+    .special-card:hover { background: rgba(200,137,58,0.1); }
+    .special-day { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem; }
+    .special-name { font-family: var(--ff-display); font-size: 1.25rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; line-height: 1.3; }
+    .special-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .special-price { display: inline-block; margin-top: 1.25rem; font-family: var(--ff-display); font-size: 1.5rem; font-weight: 700; color: var(--amber); }
+
+    /* ── LOCATION / CONTACT ── */
+    #contact { background: var(--cream); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+
+    .info-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.75rem; }
+    .info-icon { width: 38px; height: 38px; flex-shrink: 0; background: var(--off-white); border: 1px solid rgba(200,137,58,0.25); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+    .info-icon svg { width: 16px; height: 16px; fill: none; stroke: var(--amber); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .info-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-warm); margin-bottom: 0.2rem; }
+    .info-value { font-size: 0.95rem; color: var(--brown); line-height: 1.5; }
+
+    /* Map placeholder */
+    .map-placeholder { width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, var(--brown-mid), var(--brown)); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; }
+    .map-placeholder svg { width: 36px; height: 36px; fill: none; stroke: var(--amber); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .map-placeholder p { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+
+    /* Reservation form */
+    .reserve-form { background: var(--off-white); border: 1px solid rgba(200,137,58,0.2); padding: 2rem; border-radius: 4px; margin-top: 2rem; }
+    .reserve-form h3 { font-family: var(--ff-display); font-size: 1.25rem; font-weight: 700; color: var(--brown); margin-bottom: 1.25rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.9rem; }
+    .form-group label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-warm); }
+    .form-group input, .form-group select { font-family: var(--ff-body); font-size: 0.9rem; color: var(--brown); background: var(--cream); border: 1px solid rgba(200,137,58,0.25); padding: 0.65rem 0.9rem; outline: none; border-radius: 3px; transition: border-color 0.2s; -webkit-appearance: none; width: 100%; }
+    .form-group input:focus, .form-group select:focus { border-color: var(--amber); }
+    .btn-form { width: 100%; justify-content: center; margin-top: 0.25rem; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--brown); padding: 3rem 0 1.5rem; color: rgba(255,255,255,0.45); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap; margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .footer-brand .nav-logo { margin-bottom: 0.75rem; }
+    .footer-brand p { font-size: 0.85rem; max-width: 26ch; line-height: 1.7; }
+    .footer-col h4 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a { font-size: 0.85rem; color: rgba(255,255,255,0.45); transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--white); }
+    .footer-bottom { display: flex; justify-content: space-between; font-size: 0.78rem; flex-wrap: wrap; gap: 0.5rem; }
+    .footer-credit { color: rgba(255,255,255,0.3); }
+    .footer-credit a { color: var(--amber); }
+
+    /* ── BACK TO TOP ── */
+    #btt { position: fixed; bottom: 2rem; right: 2rem; width: 44px; height: 44px; background: var(--amber); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 99; opacity: 0; pointer-events: none; transform: translateY(10px); transition: all 0.3s ease; }
+    #btt.visible { opacity: 1; pointer-events: all; transform: none; }
+    #btt:hover { background: var(--amber-lt); }
+    #btt svg { width: 16px; height: 16px; fill: none; stroke: var(--brown); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .nav-links, .nav-reserve { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .specials-grid { grid-template-columns: 1fr 1fr; }
+      .menu-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .specials-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-rings { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="#home" class="nav-logo">The <span>Cozy</span> Fork</a>
+      <ul class="nav-links">
+        <li><a href="#about">Our Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#specials">Specials</a></li>
+        <li><a href="#contact">Find Us</a></li>
+      </ul>
+      <a href="#contact" class="nav-reserve">Reserve a Table</a>
+      <button class="hamburger" id="ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mob-menu">
+    <a href="#about" class="mob-l">Our Story</a>
+    <a href="#menu" class="mob-l">Menu</a>
+    <a href="#specials" class="mob-l">Specials</a>
+    <a href="#contact" class="mob-l">Find Us</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-rings" aria-hidden="true">
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring-center"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Farm-to-Table Dining</p>
+        <h1 class="hero-title">Where every<br/>meal is a <em>memory.</em></h1>
+        <p class="hero-subtitle">Scratch-made Southern comfort food crafted with locally sourced ingredients. Warm atmosphere, friendly faces, and flavors worth coming back for.</p>
+        <div class="hero-actions">
+          <a href="#menu" class="btn btn-primary">View Our Menu</a>
+          <a href="#contact" class="btn btn-ghost">Make a Reservation</a>
+        </div>
+        <div class="hero-hours">
+          <div class="hour-item"><div class="hour-day">Mon – Thu</div><div class="hour-time">11am – 9pm</div></div>
+          <div class="hour-item"><div class="hour-day">Fri – Sat</div><div class="hour-time">11am – 10pm</div></div>
+          <div class="hour-item"><div class="hour-day">Sunday</div><div class="hour-time">12pm – 8pm</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual reveal">
+          <div class="about-img-main">
+            <span class="about-img-tag">Est. 2014 · Princeton, NC</span>
+          </div>
+          <div class="about-badge">
+            <div class="badge-num">10+</div>
+            <div class="badge-label">Years<br/>Serving</div>
+          </div>
+        </div>
+        <div>
+          <span class="section-label reveal">Our Story</span>
+          <h2 class="section-title reveal reveal-delay-1">Good food,<br/><em>good people.</em></h2>
+          <div class="rule reveal reveal-delay-2"></div>
+          <p class="section-body reveal reveal-delay-2">The Cozy Fork started as a dream — a place where neighbors could gather over plates of honest, delicious food. We source our ingredients from local farms within 50 miles, cook everything from scratch daily, and treat every guest like family.</p>
+          <br/>
+          <p class="section-body reveal reveal-delay-2">Whether it's a weeknight dinner or a special celebration, we're honored to be part of your story. Come hungry, leave happy — that's our promise.</p>
+          <br/>
+          <a href="#menu" class="btn btn-primary reveal reveal-delay-3">See Today's Menu →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="container">
+      <div class="menu-header">
+        <span class="section-label reveal">What We Serve</span>
+        <h2 class="section-title reveal reveal-delay-1">Our <em>Menu</em></h2>
+        <div class="rule reveal reveal-delay-2" style="margin-inline:auto;"></div>
+        <p class="section-body reveal reveal-delay-2" style="margin-inline:auto; text-align:center;">Scratch-made daily. Locally sourced. Always fresh.</p>
+      </div>
+
+      <div class="menu-tabs reveal">
+        <button class="menu-tab active">Starters</button>
+        <button class="menu-tab">Mains</button>
+        <button class="menu-tab">Sides</button>
+        <button class="menu-tab">Desserts</button>
+      </div>
+
+      <div class="menu-grid reveal">
+        <div class="menu-item">
+          <div class="menu-item-icon">🥗</div>
+          <div>
+            <div class="menu-item-name">Harvest Salad</div>
+            <div class="menu-item-desc">Mixed greens, candied pecans, dried cranberries, goat cheese, apple cider vinaigrette.</div>
+          </div>
+          <div class="menu-item-price">$10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-icon">🍲</div>
+          <div>
+            <div class="menu-item-name">She-Crab Soup</div>
+            <div class="menu-item-desc">Rich cream-based soup with fresh crab meat, sherry, and a hint of Old Bay.</div>
+          </div>
+          <div class="menu-item-price">$9</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-icon">🧀</div>
+          <div>
+            <div class="menu-item-name">Pimento Cheese Dip</div>
+            <div class="menu-item-desc">House-made pimento cheese served warm with toasted sourdough crostini.</div>
+          </div>
+          <div class="menu-item-price">$8</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-icon">🍗</div>
+          <div>
+            <div class="menu-item-name">Crispy Chicken Bites</div>
+            <div class="menu-item-desc">Hand-breaded local chicken, sweet honey drizzle, pickled jalapeño ranch.</div>
+          </div>
+          <div class="menu-item-price">$12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-icon">🦐</div>
+          <div>
+            <div class="menu-item-name">Shrimp & Grits</div>
+            <div class="menu-item-desc">Stone-ground grits, sautéed local shrimp, smoked andouille, tomato cream sauce.</div>
+          </div>
+          <div class="menu-item-price">$22</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-icon">🥩</div>
+          <div>
+            <div class="menu-item-name">Smoked Pulled Pork Plate</div>
+            <div class="menu-item-desc">Low-and-slow smoked pork, two sides of your choice, house-made slaw.</div>
+          </div>
+          <div class="menu-item-price">$18</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECIALS -->
+  <section id="specials">
+    <div class="container">
+      <div class="specials-header">
+        <span class="section-label reveal">This Week</span>
+        <h2 class="section-title reveal reveal-delay-1">Daily <em>Specials</em></h2>
+        <div class="rule reveal reveal-delay-2" style="margin-inline:auto;"></div>
+        <p class="section-body reveal reveal-delay-2">Something different every day — come back often and try them all.</p>
+      </div>
+      <div class="specials-grid">
+        <div class="special-card reveal">
+          <div class="special-day">Tuesday</div>
+          <div class="special-name">Taco Tuesday Plates</div>
+          <div class="special-desc">Three street-style tacos with your choice of blackened shrimp, brisket, or roasted veggie. Served with chips and salsa.</div>
+          <div class="special-price">$14</div>
+        </div>
+        <div class="special-card reveal reveal-delay-1">
+          <div class="special-day">Thursday</div>
+          <div class="special-name">Prime Rib Night</div>
+          <div class="special-desc">Slow-roasted prime rib with au jus, horseradish cream, roasted potatoes, and seasonal vegetable.</div>
+          <div class="special-price">$28</div>
+        </div>
+        <div class="special-card reveal reveal-delay-2">
+          <div class="special-day">Sunday</div>
+          <div class="special-name">Sunday Brunch</div>
+          <div class="special-desc">Bottomless mimosas with any brunch entrée. Served 12pm–3pm. Features eggs benedict, biscuits & gravy, and more.</div>
+          <div class="special-price">$19</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / FIND US -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <span class="section-label reveal">Find Us</span>
+          <h2 class="section-title reveal reveal-delay-1">Come <em>visit us</em><br/>in Princeton.</h2>
+          <div class="rule reveal reveal-delay-2"></div>
+
+          <div class="reveal reveal-delay-2">
+            <div class="info-item">
+              <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div><div class="info-label">Address</div><div class="info-value">123 Main Street<br/>Princeton, NC 27569</div></div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <div><div class="info-label">Phone</div><div class="info-value">(919) 555-0134</div></div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="info-label">Email</div><div class="info-value">hello@thecozyfork.com</div></div>
+            </div>
+          </div>
+
+          <div class="map-placeholder reveal reveal-delay-3">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <p>123 Main St, Princeton, NC</p>
+          </div>
+        </div>
+
+        <div class="reveal reveal-delay-1">
+          <div class="reserve-form">
+            <h3>Reserve a Table</h3>
+            <form>
+              <div class="form-row">
+                <div class="form-group"><label>First Name</label><input type="text" placeholder="Jane" /></div>
+                <div class="form-group"><label>Last Name</label><input type="text" placeholder="Smith" /></div>
+              </div>
+              <div class="form-group"><label>Phone</label><input type="tel" placeholder="(919) 555-0000" /></div>
+              <div class="form-row">
+                <div class="form-group"><label>Date</label><input type="date" /></div>
+                <div class="form-group"><label>Time</label>
+                  <select>
+                    <option>11:00 AM</option><option>12:00 PM</option><option>1:00 PM</option>
+                    <option>5:00 PM</option><option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label>Party Size</label>
+                <select><option>1</option><option>2</option><option>3–4</option><option>5–6</option><option>7+</option></select>
+              </div>
+              <button type="button" class="btn btn-primary btn-form">Request Reservation</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="nav-logo" style="font-family:var(--ff-display);font-size:1.3rem;font-weight:700;color:var(--amber);margin-bottom:0.75rem;">The Cozy Fork</div>
+          <p>Scratch-made food, warm atmosphere, and Southern hospitality — right here in Princeton, NC.</p>
+        </div>
+        <div class="footer-col"><h4>Navigate</h4><ul><li><a href="#about">Our Story</a></li><li><a href="#menu">Menu</a></li><li><a href="#specials">Specials</a></li><li><a href="#contact">Find Us</a></li></ul></div>
+        <div class="footer-col"><h4>Hours</h4><ul><li><a>Mon–Thu: 11am–9pm</a></li><li><a>Fri–Sat: 11am–10pm</a></li><li><a>Sunday: 12pm–8pm</a></li></ul></div>
+        <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+19195550134">(919) 555-0134</a></li><li><a href="mailto:hello@thecozyfork.com">hello@thecozyfork.com</a></li><li><a href="#contact">123 Main St, Princeton NC</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 The Cozy Fork. Princeton, NC.</span>
+        <span class="footer-credit">Site by <a href="../../index.html">CS Web Solutions</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="btt" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const btt = document.getElementById('btt');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', scrollY > 10);
+      btt.classList.toggle('visible', scrollY > 300);
+    }, { passive: true });
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    const ham = document.getElementById('ham');
+    const mob = document.getElementById('mob-menu');
+    ham.addEventListener('click', () => {
+      const o = ham.classList.toggle('open');
+      mob.classList.toggle('open', o);
+      document.body.style.overflow = o ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-l').forEach(a => a.addEventListener('click', () => {
+      ham.classList.remove('open'); mob.classList.remove('open'); document.body.style.overflow = '';
+    }));
+
+    const reveal = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); reveal.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
+
+    document.querySelectorAll('.menu-tab').forEach(tab => {
+      tab.addEventListener('click', () => { document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); });
+    });
+  </script>
+</body>
+</html>
